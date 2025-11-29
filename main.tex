@@ -1,0 +1,45 @@
+%!TeX program = lualatex
+\documentclass{beamer}
+\usepackage{forest} % Vẽ cây
+\usepackage{polyglossia} 
+\setdefaultlanguage{vietnamese}
+\setotherlanguage{english}
+\usepackage{import}
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{tabularray}
+
+
+\usepackage[skip=6pt]{caption}  % trong preamble
+\captionsetup[table]{position=above}
+
+% Title setup
+\title{Cây nhị phân tìm kiếm cân bằng}
+\subtitle{Cây AVL và Cây Đỏ-đen}
+\author{Huỳnh Thiên An -- 23120001\and Hoàng Ngọc Phú -- 23120010\and Hoàng Ngọc Quí -- 23120077\and Nguyễn Duy Bảo -- 23120113}
+\institute{Giảng viên: Thầy Nguyễn Hải Đăng}
+\date{Thứ ba, ngày 2 tháng 12 năm 2025}
+
+% Beamer setup
+\usetheme{Montpellier}
+\useinnertheme{default}
+\useoutertheme{smoothtree}
+\usecolortheme{seahorse}
+%\usecolortheme{rose}
+\begin{document}
+
+\begin{frame}[plain]
+\titlepage
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Mục lục}
+\tableofcontents
+\end{frame}
+
+\import{}{bao.tex}
+\import{}{qui.tex}
+\import{}{phu.tex}
+\import{}{an.tex}
+
+\end{document}
