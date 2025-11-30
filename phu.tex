@@ -1,2 +1,116 @@
 %!TeX program = lualatex
 %!TeX root = main.tex
+
+\section{Cây Đỏ-đen}
+
+\subsection{Định nghĩa}
+
+\begin{frame}
+	\frametitle{\insertsection}
+	\framesubtitle{Nút}
+	\begin{block}{Định nghĩa}
+		Nút trong cây Đỏ-đen gồm các thuộc tính là \begin{description}[<+->]
+			\item[color] Màu của nút đó.
+			\item[key] Giá trị được lưu.
+			\item[left] Nút con bên trái.
+			\item[right] Nút con bên phải.
+			\item[parent] Nút cha.
+		\end{description}
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{\insertsection}
+	\framesubtitle{Định nghĩa}
+	Cây Đỏ-đen là một cây nhị phân tìm kiếm thỏa mãn các tính chất sau: \begin{enumerate}[<+->]
+		\item Mỗi nút trong cây phải có màu đen hoặc đỏ.
+		\item Nút gốc phải có màu đen.
+		\item Nút lá phải có màu đen.
+		\item Một nút có màu đỏ thì tất cả nút con nó phải màu đen.
+		\item Mọi đường đi từ một nút bất kì trong cây đến các nút hậu duệ lá đều phải có số lượng nút đen bằng nhau.
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\begin{block}{Nhận xét}
+		\begin{itemize}
+			\item Mọi đường đi từ nút gốc đến nút lá có số nút chênh nhau không quá 2 lần.
+			\item Mọi cây con của cây đỏ-đen cũng là cây đỏ-đen\only<2->{ \alert<2>{nếu đổi màu nút gốc thành đen}}.
+			\item Tính chất cuối có thể thay \alert{nút bất kì} thành \alert{nút gốc}.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\forestset{
+  nil-node/.style={rectangle, rounded corners},
+  red-node/.style={draw=red!70!black,fill=red!90!black},
+  default preamble={for tree={font={\tiny\bfseries}, s sep=3.5pt,circle,draw=black,minimum size=0.5cm, inner sep=1pt,fill=black,text=white}}
+}
+
+\begin{frame}
+	\begin{block}{Ví dụ}
+		\begin{forest}
+			[26
+				[17,red-node
+					[14
+						[10,red-node
+							[7
+								[3,red-node
+									[NIL,nil-node]
+									[NIL,nil-node]
+								]
+								[NIL,nil-node]
+							]
+							[12
+								[NIL,nil-node]
+								[NIL,nil-node]
+							]
+						]
+						[16
+							[15,red-node
+								[NIL,nil-node]
+								[NIL,nil-node]
+							]
+							[NIL,nil-node]
+						]
+					]
+					[21
+						[19
+							[NIL,nil-node]
+							[20,red-node
+								[NIL,nil-node]
+								[NIL,nil-node]
+							]
+						]
+						[23
+							[NIL,nil-node]
+							[NIL,nil-node]
+						]
+					]
+				]
+				[41
+					[30,red-node
+						[28
+							[NIL,nil-node]
+							[NIL,nil-node]
+						]
+						[38
+							[35,red-node
+								[NIL,nil-node]
+								[NIL,nil-node]
+							]
+							[39,red-node
+								[NIL,nil-node]
+								[NIL,nil-node]
+							]
+						]
+					]
+					[47
+						[NIL,nil-node]
+						[NIL,nil-node]
+					]
+				]
+			]
+		\end{forest}
+	\end{block}
+\end{frame}
