@@ -1,15 +1,15 @@
 %!TeX program = lualatex
 %!TeX root = main.tex
 
-\section{Cây Đỏ-đen}
+\section{Cây Đỏ-Đen}
 
-\subsection{Định nghĩa}
+\subsection{Giới thiệu}
 
 \begin{frame}
 	\frametitle{\insertsection}
-	\framesubtitle{Nút}
-	\begin{block}{Định nghĩa}
-		Nút trong cây Đỏ-đen gồm các thuộc tính là \begin{description}[<+->]
+	\framesubtitle{Định nghĩa}
+	\begin{block}{Thành phần của nút}
+		Nút trong cây đỏ-đen gồm các thuộc tính là \begin{description}
 			\item[color] Màu của nút đó.
 			\item[key] Giá trị được lưu.
 			\item[left] Nút con bên trái.
@@ -22,16 +22,20 @@
 \begin{frame}
 	\frametitle{\insertsection}
 	\framesubtitle{Định nghĩa}
-	Cây Đỏ-đen là một cây nhị phân tìm kiếm thỏa mãn các tính chất sau: \begin{enumerate}[<+->]
-		\item Mỗi nút trong cây phải có màu đen hoặc đỏ.
-		\item Nút gốc phải có màu đen.
-		\item Nút lá phải có màu đen.
-		\item Một nút có màu đỏ thì tất cả nút con nó phải màu đen.
-		\item Mọi đường đi từ một nút bất kì trong cây đến các nút hậu duệ lá đều phải có số lượng nút đen bằng nhau.
-	\end{enumerate}
+	\begin{block}{Định nghĩa cây đỏ-đen}
+		Cây đỏ-đen là một cây nhị phân tìm kiếm thỏa mãn các tính chất sau: \begin{enumerate}
+			\item Mỗi nút trong cây phải có màu đen hoặc đỏ.
+			\item Nút gốc phải có màu đen.
+			\item Nút lá phải có màu đen.
+			\item Một nút có màu đỏ thì tất cả nút con nó phải màu đen.
+			\item Mọi đường đi từ một nút bất kì trong cây đến các nút hậu duệ lá đều phải có số lượng nút đen bằng nhau.
+		\end{enumerate}
+	\end{block}
 \end{frame}
 
 \begin{frame}
+	\frametitle{\insertsection}
+	\framesubtitle{Định nghĩa}
 	\begin{block}{Nhận xét}
 		\begin{itemize}
 			\item Mọi đường đi từ nút gốc đến nút lá có số nút chênh nhau không quá 2 lần.
@@ -42,75 +46,82 @@
 \end{frame}
 
 \forestset{
-  nil-node/.style={rectangle, rounded corners},
+  nil-node/.style={rectangle,content={}, minimum size=5pt},
   red-node/.style={draw=red!70!black,fill=red!90!black},
-  default preamble={for tree={font={\tiny\bfseries}, s sep=3.5pt,circle,draw=black,minimum size=0.5cm, inner sep=1pt,fill=black,text=white}}
+  default preamble={for tree={fit=band,font={\tiny\bfseries},circle,draw=black,minimum size=0.5cm, inner sep=1pt,fill=black,text=white}}
 }
 
 \begin{frame}
-	\begin{block}{Ví dụ}
+	\frametitle{\insertsection}
+	\framesubtitle{Ví dụ}
+		\centering
 		\begin{forest}
+			for tree={s sep= 3mm}
 			[26
 				[17,red-node
 					[14
 						[10,red-node
 							[7
 								[3,red-node
-									[NIL,nil-node]
-									[NIL,nil-node]
+									[,nil-node]
+									[,nil-node]
 								]
-								[NIL,nil-node]
+								[,nil-node]
 							]
 							[12
-								[NIL,nil-node]
-								[NIL,nil-node]
+								[,nil-node]
+								[,nil-node]
 							]
 						]
 						[16
 							[15,red-node
-								[NIL,nil-node]
-								[NIL,nil-node]
+								[,nil-node]
+								[,nil-node]
 							]
-							[NIL,nil-node]
+							[,nil-node]
 						]
 					]
 					[21
 						[19
-							[NIL,nil-node]
+							[,nil-node]
 							[20,red-node
-								[NIL,nil-node]
-								[NIL,nil-node]
+								[,nil-node]
+								[,nil-node]
 							]
 						]
 						[23
-							[NIL,nil-node]
-							[NIL,nil-node]
+							[,nil-node]
+							[,nil-node]
 						]
 					]
 				]
 				[41
 					[30,red-node
 						[28
-							[NIL,nil-node]
-							[NIL,nil-node]
+							[,nil-node]
+							[,nil-node]
 						]
 						[38
 							[35,red-node
-								[NIL,nil-node]
-								[NIL,nil-node]
+								[,nil-node]
+								[,nil-node]
 							]
 							[39,red-node
-								[NIL,nil-node]
-								[NIL,nil-node]
+								[,nil-node]
+								[,nil-node]
 							]
 						]
 					]
 					[47
-						[NIL,nil-node]
-						[NIL,nil-node]
+						[,nil-node]
+						[,nil-node]
 					]
 				]
 			]
 		\end{forest}
-	\end{block}
+\end{frame}
+
+\subsection{Các thao tác trên cây}
+\begin{frame}
+
 \end{frame}

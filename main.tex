@@ -20,9 +20,37 @@
 \date{Thứ ba, ngày 2 tháng 12 năm 2025}
 
 % Beamer setup
-\usetheme{Montpellier}
-\useinnertheme{default}
-\useoutertheme{smoothtree}
+% Gói cần thiết
+\usetheme{default} % theme cơ bản, bạn có thể đổi theme khác nếu muốn
+
+% ---------------------------
+% Header: chỉ hiện section/subsection
+% ---------------------------
+\setbeamertemplate{headline}{%
+  \begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1ex,leftskip=1em]{section in head/foot}
+    \insertsectionhead%
+    \ifx\insertsubsectionhead\empty
+    \else
+      ~|~\insertsubsectionhead
+    \fi
+  \end{beamercolorbox}%
+}
+
+% ---------------------------
+% Footer: chỉ hiện số trang
+% ---------------------------
+\setbeamertemplate{footline}{%
+  \begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1ex,leftskip=1em,rightskip=1em]{page number in head/foot}
+    \hfill\insertframenumber
+  \end{beamercolorbox}%
+}
+
+
+% ---------------------------
+% Loại bỏ navigation symbols (nút điều hướng)
+% ---------------------------
+\setbeamertemplate{navigation symbols}{}
+
 \usecolortheme{seahorse}
 %\usecolortheme{rose}
 \begin{document}
