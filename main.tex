@@ -8,6 +8,8 @@
 \usepackage[ruled,vlined]{algorithm2e}
 \usepackage{tabularray}
 
+\usetikzlibrary{arrows.meta,matrix,positioning}
+
 
 \usepackage[skip=6pt]{caption}  % trong preamble
 \captionsetup[table]{position=above}
@@ -27,23 +29,24 @@
 % Header: chỉ hiện section/subsection
 % ---------------------------
 \setbeamertemplate{headline}{%
-  \begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1ex,leftskip=1em]{section in head/foot}
+  \begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1ex,leftskip=1em,rightskip=1em]{section in head/foot}
     \insertsectionhead%
     \ifx\insertsubsectionhead\empty
     \else
       ~|~\insertsubsectionhead
     \fi
+    \hfill\insertframenumber
   \end{beamercolorbox}%
 }
 
 % ---------------------------
 % Footer: chỉ hiện số trang
 % ---------------------------
-\setbeamertemplate{footline}{%
-  \begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1ex,leftskip=1em,rightskip=1em]{page number in head/foot}
-    \hfill\insertframenumber
-  \end{beamercolorbox}%
-}
+%\setbeamertemplate{footline}{%
+%  \begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1ex,leftskip=1em,rightskip=1em]{page number in head/foot}
+%    
+%  \end{beamercolorbox}%
+% }
 
 
 % ---------------------------

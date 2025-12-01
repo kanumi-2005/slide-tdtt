@@ -46,9 +46,13 @@
 \end{frame}
 
 \forestset{
+  node/.style={font={\scriptsize},circle,draw=black,minimum size=1.2em,inner sep=1pt,fill=none,text=black},
+  black-node/.style={fill=black,text=white},
   nil-node/.style={rectangle,content={}, minimum size=5pt},
-  red-node/.style={draw=red!70!black,fill=red!90!black},
-  default preamble={for tree={fit=band,font={\tiny\bfseries},circle,draw=black,minimum size=0.5cm, inner sep=1pt,fill=black,text=white}}
+  red-node/.style={draw=red!70!black,fill=red!80!black},
+  none-node/.style={node,draw=none,fill=none,shape=rectangle},
+  tree/.style={for tree={node}},
+  rb-tree/.style={tree,for tree={black-node}},
 }
 
 \begin{frame}
@@ -56,7 +60,8 @@
 	\framesubtitle{Ví dụ}
 		\centering
 		\begin{forest}
-			for tree={s sep= 3mm}
+			for tree={s sep= 3mm},
+			rb-tree
 			[26
 				[17,red-node
 					[14
@@ -123,5 +128,148 @@
 
 \subsection{Các thao tác trên cây}
 \begin{frame}
+\frametitle{\insertsection}
+\framesubtitle{Phép quay}
+\begin{block}{Minh họa}
+	\centering
+	\begin{tikzpicture}[>=Stealth]
+		\node (lefttree) {
+			\begin{forest}
+				tree,
+				for tree={fit=tight,font={\scriptsize},s sep=2em,l=5mm}
+				[,none-node
+					[y
+						[x
+							[$\alpha$]
+							[$\beta$,none-node]
+						]
+						[$\gamma$,none-node]
+					]
+				]
+			\end{forest}
+		};
+		% Cây bên phải (xoay phải)
+		\node[right=2cm of lefttree] (righttree) {
+			\begin{forest}
+				tree,
+				for tree={fit=tight,font=\scriptsize,s sep=2em,l=5mm}
+				[,none-node
+					[x
+						[$\gamma$,none-node]
+						[y
+							[$\beta$,none-node]
+							[$\gamma$,none-node]
+						]
+					]
+				]
+			\end{forest}
+		};
+	
+		% Vẽ mũi tên 2 đầu ở giữa
+\draw[->, thick, cyan] 
+    ($(righttree.west)+(0,0.1cm)$)  -- ($(lefttree.east)+(0,0.1cm)$)
+    node[midway, above]{Trái};
 
+% Mũi tên "phải" (hạ xuống dưới)
+\draw[->, thick, cyan] 
+    ($(lefttree.east)+(0,-0.1cm)$) -- ($(righttree.west)+(0,-0.1cm)$) 
+    node[midway, below]{Phải};
+	\end{tikzpicture}
+\end{block}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{\insertsection}
+	\framesubtitle{Phép chèn}
+	\begin{block}{Trường hợp 1}
+		\centering
+		\begin{tikzpicture}[>=Stealth]
+			\node (lefttree) {
+				\begin{forest}
+					rb-tree,
+					for tree={fit=band,l=0pt,s sep=1em}
+					[C
+						[A,red-node
+							[$\alpha$,none-node]
+							[B,red-node,label=right:z
+								[$\beta$,none-node]
+								[$\gamma$,none-node]
+							]
+						]
+						[D,red-node,label=right:y
+							[$\delta$,none-node]
+							[$\epsilon$,none-node]
+						]
+					]
+				\end{forest}
+			};
+			% Cây bên phải (xoay phải)
+			\node[right=2cm of lefttree] (righttree) {
+				\begin{forest}
+					rb-tree,
+					for tree={fit=band,l=0pt,s sep=1em}
+					[C,red-node,label=right:{new z}
+						[A
+							[$\alpha$,none-node]
+							[B,red-node
+								[$\beta$,none-node]
+								[$\gamma$,none-node]
+							]
+						]
+						[D
+							[$\delta$,none-node]
+							[$\epsilon$,none-node]
+						]
+					]
+				\end{forest}
+			};
+			\draw[->, thick, cyan] 
+			    (lefttree.east) -- (righttree.west);
+		\end{tikzpicture}
+		\\
+		\begin{tikzpicture}[>=Stealth]
+			\node (lefttree) {
+				\begin{forest}
+					rb-tree,
+					for tree={fit=band,l=0pt,s sep=1em}
+					[C
+						[A,red-node
+							[B,red-node,label=right:z
+								[$\alpha$,none-node]
+								[$\beta$,none-node]
+							]
+							[$\gamma$,none-node]
+						]
+						[D,red-node,label=right:y
+							[$\delta$,none-node]
+							[$\epsilon$,none-node]
+						]
+					]
+				\end{forest}
+			};
+			% Cây bên phải (xoay phải)
+			\node[right=2cm of lefttree] (righttree) {
+				\begin{forest}
+					rb-tree,
+					for tree={fit=band,l=0pt,s sep=1em}
+					[C,red-node,label=right:{new z}
+						[A
+							[B,red-node
+								[$\alpha$,none-node]
+								[$\beta$,none-node]
+							]
+							[$\gamma$,none-node]
+						]
+						[D
+							[$\delta$,none-node]
+							[$\epsilon$,none-node]
+						]
+					]
+				\end{forest}
+			};
+			\draw[->, thick, cyan] 
+			    (lefttree.east) -- (righttree.west);
+		\end{tikzpicture}
+	\end{block}
 \end{frame}
