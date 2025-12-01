@@ -1,2 +1,61 @@
-%!TeX program = lualatex
-%!TeX root = main.tex
+\section{Đặt vấn đề}
+
+\begin{frame}
+    \frametitle{\insertsection}
+    \framesubtitle{Tại sao cần cây tự cân bằng?}
+
+    \begin{block}{Vấn đề của cây nhị phân tìm kiếm (BST)}
+        BST thông thường rất phụ thuộc vào \textbf{thứ tự chèn}. 
+        Nếu dữ liệu được chèn theo thứ tự tăng/giảm dần:
+        \begin{itemize}
+            \item Cây trở thành dạng \alert{danh sách liên kết}.
+            \item Độ cao đạt $O(n)$.
+            \item Tìm kiếm, chèn, xoá đều có độ phức tạp $O(n)$.
+        \end{itemize}
+        Điều này không phù hợp cho các hệ thống lớn, cần hiệu năng ổn định.
+    \end{block}
+
+    \begin{alertblock}{Nhu cầu thực tế}
+        Cần một cấu trúc dữ liệu đảm bảo:
+        \begin{itemize}
+            \item Độ cao luôn xấp xỉ $O(\log n)$.
+            \item Hiệu năng ổn định bất kể thứ tự đầu vào.
+            \item Tối ưu cho tìm kiếm hoặc cập nhật tùy tình huống.
+        \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+\begin{frame}
+    \frametitle{\insertsection}
+    \framesubtitle{Bài toán đặt ra}
+
+    \begin{block}{Bài toán}
+        Thiết kế một cây nhị phân tìm kiếm \textbf{tự cân bằng} sao cho:
+        \begin{enumerate}
+            \item Duy trì được độ cao $O(\log n)$.
+            \item Cho phép chèn, xoá, tìm kiếm hiệu quả.
+            \item Không phụ thuộc vào thứ tự dữ liệu đầu vào.
+        \end{enumerate}
+    \end{block}
+
+    \begin{block}{Hai hướng giải khác nhau}
+        Từ nhu cầu đó sinh ra hai cây điển hình:
+        \begin{itemize}
+            \item \textbf{Cây AVL}: Cân bằng \textit{nghiêm ngặt} để tối ưu tốc độ tìm kiếm.
+            \item \textbf{Cây Đỏ-Đen}: Cân bằng \textit{vừa đủ} để giảm số phép xoay khi chèn/xoá.
+        \end{itemize}
+        Mỗi loại cây phù hợp với các ứng dụng khác nhau.
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{\insertsection}
+    \framesubtitle{Tại sao tồn tại cả AVL và Red-Black?}
+
+    \begin{block}{Hai nhu cầu tối ưu khác nhau}
+        \begin{itemize}
+            \item Khi hệ thống cần \alert{tìm kiếm rất nhanh}, dữ liệu ít thay đổi → chọn \textbf{AVL}.
+            \item Khi hệ thống cần \alert{chèn/xoá thường xuyên}, cập nhật liên tục → chọn \textbf{Red-Black Tree}.
+        \end{itemize}
+    \end{block}
+\end{frame}
