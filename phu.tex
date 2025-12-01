@@ -1,52 +1,6 @@
 %!TeX program = lualatex
 %!TeX root = main.tex
 
-\ExplSyntaxOn
-
-\NewDocumentEnvironment{twotrees}{mmmm}
- {
-   % Split note by "/" into two parts
-   \seq_set_split:Nnn \l_tmpa_seq {/} {#4}
-   \seq_pop_left:NN \l_tmpa_seq \l_phu_note_left_tl
-   \seq_pop_left:NN \l_tmpa_seq \l_phu_note_right_tl
-
-   \begin{tikzpicture}[>=Stealth]
-
-	% Left tree
-	% Nên thêm anchor=north west (hoặc north) để dễ kiểm soát toạ độ gốc (0,0) là góc trên
-	\node[rectangle, draw, anchor=north\space west] (lefttree) at (0, 0) {#1};
-	
-	% Right tree
-	% SỬA:
-	% 1. `of lefttree.north east`: Đặt vị trí dựa trên góc TRÊN-PHẢI của cây trái.
-	% 2. `anchor=north west`: Neo góc TRÊN-TRÁI của cây phải vào vị trí đó.
-	\node[rectangle, draw, right=#3\space of\space lefttree.north\space east, anchor=north\space west] (righttree) {#2};
-
-     % Draw arrow(s)
-     \tl_if_blank:VTF \l_phu_note_right_tl
-       {
-         %---- Only one note =>  left -> right
-         \draw[->, thick, cyan, text=black]
-           (lefttree.east) -- node[below]{\l_phu_note_left_tl} ($(lefttree.east)+(#3,0)$);
-       }
-       {
-         %---- Two notes =>  two arrows
-         % Lower arrow: left -> right
-         \draw[->, thick, cyan, text=black]
-           ($(lefttree.east)+(0,0.1cm)$) -- node[above,text=black]{\l_phu_note_left_tl} ($(lefttree.east)+(#3,0.1cm)$);
-
-         % Upper arrow: right -> left
-         \draw[<-, thick, yshift=6pt, cyan, text=black]
-           ($(lefttree.east)-(0,0.1cm)$) -- node[below]{\l_phu_note_right_tl} ($(lefttree.east)+(#3,-0.1cm)$);
-       }
- }
- {
-   \end{tikzpicture}
- }
-
-\ExplSyntaxOff
-
-
 
 \section{Cây Đỏ-Đen}
 
@@ -83,17 +37,6 @@
 	\end{itemize}
 \end{frame}
 
-\forestset{
-  node/.style={font={\scriptsize},circle,draw=black,minimum size=1.2em,inner sep=1pt,fill=none,text=black},
-  black-node/.style={fill=black,text=white},
-  nil-node/.style={rectangle,content={}, minimum size=5pt},
-  red-node/.style={draw=red!70!black,fill=red!80!black},
-  non-decorate-node/.style={node,draw=none,fill=none,shape=rectangle},
-  tree/.style={for tree={node}},
-  rb-tree/.style={tree,for tree={black-node}},
-  empty-node/.style={non-decorate-node, minimum size=0pt, inner sep=1pt,content={}},
-  rand-node/.style={fill=brown!90!black,draw=brown!70!black},
-}
 
 \begin{frame}
 	\frametitle{Ví dụ về cây đỏ-đen}

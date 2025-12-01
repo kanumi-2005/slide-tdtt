@@ -1,2 +1,474 @@
 %!TeX program = lualatex
 %!TeX root = main.tex
+
+% --- CẤU TRÚC LỆNH MỚI ---
+% \newcommand{\TenLenh}[Tổng số tham số][Giá trị mặc định của #1]{Nội dung}
+\newcommand{\VeTamGiacGradient}[5][right]{
+    % #1: [Tùy chọn] Vị trí (left hoặc right). Mặc định là "right".
+    % #2: Tọa độ ĐỈNH (Tọa độ cũ là #1 nay thành #2)
+    % #3: Chiều cao   (Tọa độ cũ là #2 nay thành #3)
+    % #4: Độ dài đáy  (Tọa độ cũ là #3 nay thành #4)
+    % #5: Text        (Tọa độ cũ là #4 nay thành #5)
+
+    % 1. Vẽ tam giác (Dùng #2, #3, #4)
+    \path[left color=white, right color=gray, draw=black] 
+        (#2) coordinate (Dinh)
+        -- ($(Dinh) + (-#4/2, -#3)$) 
+        -- ($(Dinh) + (#4/2, -#3)$) 
+        -- cycle;
+
+    % 2. Xử lý vị trí Node dựa trên #1
+    \ifthenelse{\equal{#1}{left}}{
+        % --- NẾU LÀ LEFT ---
+        % Vị trí x: trừ đi 1/2 đáy (sang trái)
+        % anchor=east: Cạnh phải của chữ dính vào hình
+        % xshift: Đẩy nhẹ ra xa hình một chút (dương) hoặc dính vào (âm) tùy bạn
+        \node[anchor=east, xshift=1mm] at ($(Dinh) + (-#4/2, -#3/2)$) {\tiny #5};
+    }{
+        % --- NẾU LÀ RIGHT (Mặc định) ---
+        % Vị trí x: cộng thêm 1/2 đáy (sang phải)
+        % anchor=west: Cạnh trái của chữ dính vào hình
+        \node[anchor=west, xshift=-1mm] at ($(Dinh) + (#4/2, -#3/2)$) {\tiny #5};
+    }
+}
+
+% --- LỆNH VẼ NỬA TAM GIÁC (TAM GIÁC VUÔNG) ---
+\newcommand{\VeNuaTamGiac}[5][right]{
+    % #1: [left/right] Hướng vẽ và vị trí text (Mặc định: right)
+    % #2: Tọa độ ĐỈNH
+    % #3: Chiều cao
+    % #4: Độ rộng đáy (của nửa tam giác)
+    % #5: Text
+
+    \ifthenelse{\equal{#1}{left}}{
+        % =======================
+        % TRƯỜNG HỢP: LEFT (Vẽ sang trái)
+        % =======================
+        % Gradient: Phải (trục) trắng -> Trái (cạnh huyền) xám
+        \path[left color=gray, right color=white, draw=black] 
+            (#2) coordinate (Dinh)
+            -- ($(Dinh) + (0, -#3)$)    % Cạnh dọc (xuống dưới)
+            -- ($(Dinh) + (-#4, -#3)$)  % Sang trái
+            -- cycle;                   % Về đỉnh (tạo cạnh huyền)
+
+        % Text nằm bên TRÁI cạnh huyền
+        \node[anchor=east, xshift=-1mm] at ($(Dinh) + (-#4/2, -#3/2)$) {\tiny #5};
+    }{
+        % =======================
+        % TRƯỜNG HỢP: RIGHT (Vẽ sang phải - Mặc định)
+        % =======================
+        % Gradient: Trái (trục) trắng -> Phải (cạnh huyền) xám
+        \path[left color=white, right color=gray, draw=black] 
+            (#2) coordinate (Dinh)
+            -- ($(Dinh) + (0, -#3)$)    % Cạnh dọc
+            -- ($(Dinh) + (#4, -#3)$)   % Sang phải
+            -- cycle;
+
+        % Text nằm bên PHẢI cạnh huyền
+        \node[anchor=west, xshift=1mm] at ($(Dinh) + (#4/2, -#3/2)$) {\tiny #5};
+    }
+}
+
+\section{Cây AVL}
+
+\subsection{Giới thiệu}
+
+\begin{frame}
+    \frametitle{Thành phần của nút trong cây AVL}
+    Nút trong cây AVL gồm các thuộc tính sau:
+    \begin{description}
+        \item[key] Giá trị của nút.
+        \item[left] Nút con bên trái.
+        \item[right] Nút con bên phải.
+        \item[height] Chiều cao của nút.
+    \end{description}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Định nghĩa cây AVL}
+    Cây AVL được đặt tên theo Adelson-Velsky và Landis, là cây nhị phân tìm kiếm thỏa mãn chiều cao hai cây con của bất kỳ nút nào cũng không khác nhau quá một
+\end{frame}
+
+\begin{frame}
+    \frametitle{Nhận xét}
+    \begin{itemize}
+        \item Mọi cây con của cây AVL cũng là cây AVL.
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Ví dụ về cây AVL}
+    \centering
+    \begin{forest}
+        for tree={s sep= 3mm},
+        tree
+        [30
+            [20
+                [10
+                    [5
+                        [,nil-node]
+                        [,nil-node]
+                    ]
+                    [15
+                        [,nil-node]
+                        [,nil-node]
+                    ]
+                ]
+                [25
+                    [,nil-node]
+                    [35 
+                        [,nil-node]
+                        [,nil-node]
+                    ]
+                ]
+            ]
+            [45
+                [40
+                    [,nil-node]
+                    [,nil-node]
+                ]
+                [50
+                    [,nil-node]
+                    [,nil-node]
+                ]
+            ]
+        ]
+    \end{forest}
+\end{frame}
+
+
+\subsection{Các thao tác trên cây}
+\begin{frame}
+\frametitle{Phép quay}
+\framesubtitle{Minh họa}
+    \centering
+    \begin{twotrees}
+    {
+        \begin{forest}
+            tree,
+            for tree={fit=tight,font={\scriptsize},s sep=2em,l=5mm}
+            [,empty-node
+                [y
+                    [x
+                        [$\alpha$,non-decorate-node]
+                        [$\beta$,non-decorate-node]
+                    ]
+                    [$\gamma$,non-decorate-node]
+                ]
+            ]
+        \end{forest}
+    }
+    {
+        \begin{forest}
+            tree,
+            for tree={fit=tight,font=\scriptsize,s sep=2em,l=5mm}
+            [,empty-node
+                [x
+                    [$\alpha$,non-decorate-node]
+                    [y
+                        [$\beta$,non-decorate-node]
+                        [$\gamma$,non-decorate-node]
+                    ]
+                ]
+            ]
+        \end{forest}
+    }
+    {2cm}
+    {Xoay phải / Xoay trái}
+    \end{twotrees}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Xử lý mất cân bằng trong cây AVL}
+    \framesubtitle{Trường hợp LL}
+    \centering
+    \begin{twotrees}
+    {
+        % Cây trước khi xoay
+        \begin{forest}
+            tree,
+            for tree={l sep=0pt,s sep=1.5em}
+            [,empty-node
+                [D,s sep=2em
+                    [B
+                        [A,name=A]
+                        [C,name=C]
+                    ]
+                    [E,name=E]
+                ]
+            ]
+            \VeTamGiacGradient{A.south}{1cm}{0.3cm}{$h+1$}
+            \VeTamGiacGradient{C.south}{1cm}{0.3cm}{$h$}
+            \VeTamGiacGradient{E.south}{1cm}{0.3cm}{$h$}
+        \end{forest}
+    }
+    {
+        % Cây sau khi xoay phải
+        \begin{forest}
+            tree,
+            for tree={l sep=0pt, s sep=1.5em}
+            [,empty-node
+                [B,s sep=2em
+                    [A,name=A]
+                    [D
+                        [C,name=C]
+                        [E,name=E]
+                    ]
+                ]
+            ]
+            \VeTamGiacGradient[left]{A.south}{1cm}{0.3cm}{$h+1$}
+            \VeTamGiacGradient{C.south}{1cm}{0.3cm}{$h$}
+            \VeTamGiacGradient{E.south}{1cm}{0.3cm}{$h$}
+        \end{forest}
+    }
+    {2cm} % Khoảng cách giữa 2 cây
+    {/}
+    \end{twotrees}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Xử lý mất cân bằng trong cây AVL}
+    \framesubtitle{Trường hợp LR}
+    \centering
+    \begin{threetrees}
+    {
+        % Cây trước khi xoay
+        \begin{forest}
+            tree,
+            for tree={l sep=0pt,s sep=1.5em}
+            [,empty-node
+                [D,s sep=2em
+                    [B
+                        [A,name=A]
+                        [C,name=C]
+                    ]
+                    [E,name=E]
+                ]
+            ]
+            \VeTamGiacGradient{A.south}{1cm}{0.3cm}{$h$}
+            \VeTamGiacGradient{C.south}{1cm}{0.3cm}{$h+1$}
+            \VeTamGiacGradient{E.south}{1cm}{0.3cm}{$h$}
+        \end{forest}
+    }
+    {
+        % Cây sau khi xoay trái 
+        \begin{forest}
+            tree,
+            for tree={l sep=0pt, s sep=0.5em}
+            [,empty-node
+                [D
+                    [C, name=C
+                        [B,name=B
+                            [A,name=A]
+                            [,phantom]
+                        ]
+                        [,phantom]
+                    ]
+                    [E, name=E
+                        [,phantom]
+                        [,phantom]
+                    ]
+                ]
+            ]
+            \VeTamGiacGradient{A.south}{1cm}{0.3cm}{$h$}
+            \VeTamGiacGradient{E.south}{1cm}{0.3cm}{$h$}
+            \VeNuaTamGiac{B.south east}{1cm}{0.3cm}{$h+1$}
+            \VeNuaTamGiac{C.south east}{1cm}{0.3cm}{$h+1$}
+        \end{forest}
+    }
+    {
+        % Cây sau khi xoay phải 
+        \begin{forest}
+            tree,
+            for tree={l sep=0pt, s sep=0.5em}
+            [,empty-node
+                [C,s sep=1.5em
+                    [B,name=B
+                        [A,name=A]
+                        [,phantom]
+                    ]
+                    [D,name=D
+                        [,phantom]
+                        [E,name=E]
+                    ]
+                ]
+            ]
+            \VeTamGiacGradient{A.south}{1cm}{0.3cm}{$h$}
+            \VeTamGiacGradient{E.south}{1cm}{0.3cm}{$h$}
+            \VeNuaTamGiac{B.south east}{1cm}{0.3cm}{$h+1$}
+            \VeNuaTamGiac[left]{D.south west}{1cm}{0.3cm}{}
+        \end{forest}
+    }
+    {0.5cm} % Khoảng cách giữa 2 cây
+    {/}
+    \end{threetrees}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Xử lý mất cân bằng trong cây AVL}
+    \framesubtitle{Trường hợp RR}
+    \centering
+    \begin{twotrees}
+    {
+        % --- TRƯỚC KHI XOAY (Lệch phải) ---
+        \begin{forest}
+            tree,
+            for tree={l sep=0pt,s sep=1.5em}
+            [,empty-node
+                [B,s sep=2em
+                    [A,name=A]
+                    [D
+                        [C,name=C]
+                        [E,name=E]
+                    ]
+                ]
+            ]
+            % A và C cao h, E cao h+1 => Lệch về phía E (Phải-Phải)
+            \VeTamGiacGradient[left]{A.south}{1cm}{0.3cm}{$h$}
+            \VeTamGiacGradient[left]{C.south}{1cm}{0.3cm}{$h$}
+            \VeTamGiacGradient{E.south}{1cm}{0.3cm}{$h+1$}
+        \end{forest}
+    }
+    {
+        % --- SAU KHI XOAY TRÁI ---
+        \begin{forest}
+            tree,
+            for tree={l sep=0pt, s sep=1.5em}
+            [,empty-node
+                [D,s sep=2em
+                    [B
+                        [A,name=A]
+                        [C,name=C]
+                    ]
+                    [E,name=E]
+                ]
+            ]
+            % Cây cân bằng
+            \VeTamGiacGradient[left]{A.south}{1cm}{0.3cm}{$h$}
+            \VeTamGiacGradient{C.south}{1cm}{0.3cm}{$h$}
+            \VeTamGiacGradient{E.south}{1cm}{0.3cm}{$h+1$}
+        \end{forest}
+    }
+    {2cm} {/} % Mũi tên hoặc dấu phân cách
+    \end{twotrees}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Xử lý mất cân bằng trong cây AVL}
+    \framesubtitle{Trường hợp RL}
+    \centering
+    \begin{threetrees}
+    {
+        % --- CÂY 1: TRƯỚC KHI XOAY (Mất cân bằng RL) ---
+        % Gốc A lệch phải về C, C lại lệch trái về B
+        \begin{forest}
+            tree,
+            for tree={l sep=0pt,s sep=1.5em}
+            [,empty-node
+                [A,s sep=2em
+                    [D,name=D] % Cây con trái A (h)
+                    [C
+                        [B,name=B]   % Cây con trái C (Gây mất cân bằng - h+1)
+                        [E,name=E]   % Cây con phải C (h)
+                    ]
+                ]
+            ]
+            % Vẽ tam giác
+            \VeTamGiacGradient[left]{D.south}{1cm}{0.3cm}{$h$}
+            \VeTamGiacGradient[left]{B.south}{1cm}{0.3cm}{$h+1$}
+            \VeTamGiacGradient{E.south}{1cm}{0.3cm}{$h$}
+        \end{forest}
+    }
+    {
+        % --- CÂY 2: SAU KHI XOAY PHẢI TẠI C ---
+        % B được đẩy lên làm con phải của A. C tụt xuống làm con phải của B.
+        \begin{forest}
+            tree,
+            for tree={l sep=0pt, s sep=0.5em}
+            [,empty-node
+                [A
+                    [D, name=D
+                        [,phantom]
+                        [,phantom]
+                    ]
+                    [B, name=B
+                        [,phantom]
+                        [C, name=C
+                            [,phantom]
+                            [E,name=E]
+                        ]
+                    ]
+                ]
+            ]
+            \VeTamGiacGradient[left]{D.south}{1cm}{0.3cm}{$h$}
+            \VeTamGiacGradient{E.south}{1cm}{0.3cm}{$h$}
+            \VeNuaTamGiac[left]{B.south west}{1cm}{0.3cm}{$h+1$} % Phần trái của B
+            \VeNuaTamGiac[left]{C.south west}{1cm}{0.3cm}{$h+1$} % Phần phải của B
+        \end{forest}
+    }
+    {
+        % --- CÂY 3: SAU KHI XOAY TRÁI TẠI A (CÂN BẰNG) ---
+        % B lên làm gốc. A xuống làm con trái. C là con phải.
+        \begin{forest}
+            tree,
+            for tree={l sep=0pt, s sep=0.5em}
+            [,empty-node
+                [B,s sep=1.5em
+                    [A,name=A
+                        [D,name=D]
+                        [,phantom]
+                    ]
+                    [C,name=C
+                        [,phantom]
+                        [E,name=E]
+                    ]
+                ]
+            ]
+            \VeTamGiacGradient[left]{D.south}{1cm}{0.3cm}{$h$}
+            \VeTamGiacGradient{E.south}{1cm}{0.3cm}{$h$}
+            % Các phần tách ra của B được chia đều cho A và C
+            \VeNuaTamGiac{A.south east}{1cm}{0.3cm}{$h+1$}        % Phần trái của B (về A)
+            \VeNuaTamGiac[left]{C.south west}{1cm}{0.3cm}{}  % Phần phải của B (về C)
+        \end{forest}
+    }
+    {0.5cm} % Khoảng cách
+    {/} % Text mũi tên
+    \end{threetrees}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Phép chèn}
+    \begin{algorithm}[H]
+    \small
+    \SetAlgoLined
+    1. Thực hiện phép chèn của BST\\
+    2. Cập nhật chiều cao của nút hiện tại\\
+    3. Tính hệ số cân bằng của nút hiện tại\\
+    4. Xử lí các trường hợp cân bằng nếu nút mất cân bằng\\
+    5. Lặp lại bước 2-4 cho đến nút gốc\\
+    \caption{Phép chèn nút cây AVL}
+    \end{algorithm}
+
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Phép xóa}
+    \begin{algorithm}[H]
+    \small
+    \SetAlgoLined
+    1. Thực hiện phép xóa của BST\\
+    2. Cập nhật chiều cao của nút hiện tại\\
+    3. Tính hệ số cân bằng của nút hiện tại\\
+    4. Xử lí các trường hợp cân bằng (LL, LR, RR, RL) nếu mất cân bằng\\
+    5. Lặp lại bước 2-4 đi lên đến nút gốc\\
+    \caption{Phép xóa nút cây AVL}
+    \end{algorithm}
+\end{frame}
