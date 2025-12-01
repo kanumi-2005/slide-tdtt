@@ -1,48 +1,86 @@
 %!TeX program = lualatex
 %!TeX root = main.tex
 
+\ExplSyntaxOn
+
+\NewDocumentEnvironment{twotrees}{mmmm}
+ {
+   % Split note by "/" into two parts
+   \seq_set_split:Nnn \l_tmpa_seq {/} {#4}
+   \seq_pop_left:NN \l_tmpa_seq \l_phu_note_left_tl
+   \seq_pop_left:NN \l_tmpa_seq \l_phu_note_right_tl
+
+   \begin{tikzpicture}[>=Stealth]
+
+	% Left tree
+	% Nên thêm anchor=north west (hoặc north) để dễ kiểm soát toạ độ gốc (0,0) là góc trên
+	\node[rectangle, draw, anchor=north\space west] (lefttree) at (0, 0) {#1};
+	
+	% Right tree
+	% SỬA:
+	% 1. `of lefttree.north east`: Đặt vị trí dựa trên góc TRÊN-PHẢI của cây trái.
+	% 2. `anchor=north west`: Neo góc TRÊN-TRÁI của cây phải vào vị trí đó.
+	\node[rectangle, draw, right=#3\space of\space lefttree.north\space east, anchor=north\space west] (righttree) {#2};
+
+     % Draw arrow(s)
+     \tl_if_blank:VTF \l_phu_note_right_tl
+       {
+         %---- Only one note =>  left -> right
+         \draw[->, thick, cyan, text=black]
+           (lefttree.east) -- node[below]{\l_phu_note_left_tl} ($(lefttree.east)+(#3,0)$);
+       }
+       {
+         %---- Two notes =>  two arrows
+         % Lower arrow: left -> right
+         \draw[->, thick, cyan, text=black]
+           ($(lefttree.east)+(0,0.1cm)$) -- node[above,text=black]{\l_phu_note_left_tl} ($(lefttree.east)+(#3,0.1cm)$);
+
+         % Upper arrow: right -> left
+         \draw[<-, thick, yshift=6pt, cyan, text=black]
+           ($(lefttree.east)-(0,0.1cm)$) -- node[below]{\l_phu_note_right_tl} ($(lefttree.east)+(#3,-0.1cm)$);
+       }
+ }
+ {
+   \end{tikzpicture}
+ }
+
+\ExplSyntaxOff
+
+
+
 \section{Cây Đỏ-Đen}
 
 \subsection{Giới thiệu}
 
 \begin{frame}
-	\frametitle{\insertsection}
-	\framesubtitle{Định nghĩa}
-	\begin{block}{Thành phần của nút}
-		Nút trong cây đỏ-đen gồm các thuộc tính là \begin{description}
-			\item[color] Màu của nút đó.
-			\item[key] Giá trị được lưu.
-			\item[left] Nút con bên trái.
-			\item[right] Nút con bên phải.
-			\item[parent] Nút cha.
-		\end{description}
-	\end{block}
+	\frametitle{Thành phần của nút trong cây đỏ-đen}
+	Nút trong cây đỏ-đen gồm các thuộc tính là \begin{description}
+		\item[color] Màu của nút đó.
+		\item[key] Giá trị được lưu.
+		\item[left] Nút con bên trái.
+		\item[right] Nút con bên phải.
+		\item[parent] Nút cha.
+	\end{description}
 \end{frame}
 
 \begin{frame}
-	\frametitle{\insertsection}
-	\framesubtitle{Định nghĩa}
-	\begin{block}{Định nghĩa cây đỏ-đen}
-		Cây đỏ-đen là một cây nhị phân tìm kiếm thỏa mãn các tính chất sau: \begin{enumerate}
-			\item Mỗi nút trong cây phải có màu đen hoặc đỏ.
-			\item Nút gốc phải có màu đen.
-			\item Nút lá phải có màu đen.
-			\item Một nút có màu đỏ thì tất cả nút con nó phải màu đen.
-			\item Mọi đường đi từ một nút bất kì trong cây đến các nút hậu duệ lá đều phải có số lượng nút đen bằng nhau.
-		\end{enumerate}
-	\end{block}
+	\frametitle{Định nghĩa cây đỏ-đen}
+	Cây đỏ-đen là một cây nhị phân tìm kiếm thỏa mãn các tính chất sau: \begin{enumerate}
+		\item Mỗi nút trong cây phải có màu đen hoặc đỏ.
+		\item Nút gốc phải có màu đen.
+		\item Nút lá phải có màu đen.
+		\item Một nút có màu đỏ thì tất cả nút con nó phải màu đen.
+		\item Mọi đường đi từ một nút bất kì trong cây đến các nút hậu duệ lá đều phải có số lượng nút đen bằng nhau.
+	\end{enumerate}
 \end{frame}
 
 \begin{frame}
-	\frametitle{\insertsection}
-	\framesubtitle{Định nghĩa}
-	\begin{block}{Nhận xét}
-		\begin{itemize}
-			\item Mọi đường đi từ nút gốc đến nút lá có số nút chênh nhau không quá 2 lần.
-			\item Mọi cây con của cây đỏ-đen cũng là cây đỏ-đen\only<2->{ \alert<2>{nếu đổi màu nút gốc thành đen}}.
-			\item Tính chất cuối có thể thay \alert{nút bất kì} thành \alert{nút gốc}.
-		\end{itemize}
-	\end{block}
+	\frametitle{Nhận xét về định nghĩa}
+	\begin{itemize}
+		\item Mọi đường đi từ nút gốc đến nút lá có số nút chênh nhau không quá 2 lần.
+		\item Mọi cây con của cây đỏ-đen cũng là cây đỏ-đen\only<2->{ \alert<2>{nếu đổi màu nút gốc thành đen}}.
+		\item Tính chất cuối có thể thay \alert{nút bất kì} thành \alert{nút gốc}.
+	\end{itemize}
 \end{frame}
 
 \forestset{
@@ -50,14 +88,15 @@
   black-node/.style={fill=black,text=white},
   nil-node/.style={rectangle,content={}, minimum size=5pt},
   red-node/.style={draw=red!70!black,fill=red!80!black},
-  none-node/.style={node,draw=none,fill=none,shape=rectangle},
+  non-decorate-node/.style={node,draw=none,fill=none,shape=rectangle},
   tree/.style={for tree={node}},
   rb-tree/.style={tree,for tree={black-node}},
+  empty-node/.style={non-decorate-node, minimum size=0pt, inner sep=1pt,content={}},
+  rand-node/.style={fill=brown!90!black,draw=brown!70!black},
 }
 
 \begin{frame}
-	\frametitle{\insertsection}
-	\framesubtitle{Ví dụ}
+	\frametitle{Ví dụ về cây đỏ-đen}
 		\centering
 		\begin{forest}
 			for tree={s sep= 3mm},
@@ -128,148 +167,463 @@
 
 \subsection{Các thao tác trên cây}
 \begin{frame}
-\frametitle{\insertsection}
-\framesubtitle{Phép quay}
-\begin{block}{Minh họa}
+\frametitle{Phép quay}
+\framesubtitle{Minh họa}
 	\centering
-	\begin{tikzpicture}[>=Stealth]
-		\node (lefttree) {
-			\begin{forest}
-				tree,
-				for tree={fit=tight,font={\scriptsize},s sep=2em,l=5mm}
-				[,none-node
-					[y
-						[x
-							[$\alpha$]
-							[$\beta$,none-node]
-						]
-						[$\gamma$,none-node]
-					]
-				]
-			\end{forest}
-		};
-		% Cây bên phải (xoay phải)
-		\node[right=2cm of lefttree] (righttree) {
-			\begin{forest}
-				tree,
-				for tree={fit=tight,font=\scriptsize,s sep=2em,l=5mm}
-				[,none-node
+	\begin{twotrees}
+	{
+		\begin{forest}
+			tree,
+			for tree={fit=tight,font={\scriptsize},s sep=2em,l=5mm}
+			[,empty-node
+				[y
 					[x
-						[$\gamma$,none-node]
-						[y
-							[$\beta$,none-node]
-							[$\gamma$,none-node]
-						]
+						[$\alpha$,non-decorate-node]
+						[$\beta$,non-decorate-node]
+					]
+					[$\gamma$,non-decorate-node]
+				]
+			]
+		\end{forest}
+	}
+	{
+		\begin{forest}
+			tree,
+			for tree={fit=tight,font=\scriptsize,s sep=2em,l=5mm}
+			[,empty-node
+				[x
+					[$\gamma$,non-decorate-node]
+					[y
+						[$\beta$,non-decorate-node]
+						[$\gamma$,non-decorate-node]
 					]
 				]
-			\end{forest}
-		};
-	
-		% Vẽ mũi tên 2 đầu ở giữa
-\draw[->, thick, cyan] 
-    ($(righttree.west)+(0,0.1cm)$)  -- ($(lefttree.east)+(0,0.1cm)$)
-    node[midway, above]{Trái};
-
-% Mũi tên "phải" (hạ xuống dưới)
-\draw[->, thick, cyan] 
-    ($(lefttree.east)+(0,-0.1cm)$) -- ($(righttree.west)+(0,-0.1cm)$) 
-    node[midway, below]{Phải};
-	\end{tikzpicture}
-\end{block}
+			]
+		\end{forest}
+	}
+	{2cm}
+	{Xoay phải/Xoay trái}
+	\end{twotrees}
 \end{frame}
 
 
 \begin{frame}
-	\frametitle{\insertsection}
-	\framesubtitle{Phép chèn}
-	\begin{block}{Trường hợp 1}
-		\centering
-		\begin{tikzpicture}[>=Stealth]
-			\node (lefttree) {
-				\begin{forest}
-					rb-tree,
-					for tree={fit=band,l=0pt,s sep=1em}
-					[C
-						[A,red-node
-							[$\alpha$,none-node]
-							[B,red-node,label=right:z
-								[$\beta$,none-node]
-								[$\gamma$,none-node]
-							]
-						]
-						[D,red-node,label=right:y
-							[$\delta$,none-node]
-							[$\epsilon$,none-node]
+	\frametitle{Phép chèn}
+	\framesubtitle{Trường hợp 1}
+	\centering
+	\begin{twotrees}
+	{
+		\begin{forest}
+			rb-tree,
+			for tree={fit=band,l=0pt,s sep=1em}
+			[,empty-node
+				[C
+					[A,red-node
+						[$\alpha$,non-decorate-node]
+						[B,red-node,label=right:z
+							[$\beta$,non-decorate-node]
+							[$\gamma$,non-decorate-node]
 						]
 					]
-				\end{forest}
-			};
-			% Cây bên phải (xoay phải)
-			\node[right=2cm of lefttree] (righttree) {
-				\begin{forest}
-					rb-tree,
-					for tree={fit=band,l=0pt,s sep=1em}
-					[C,red-node,label=right:{new z}
+					[D,red-node,label=right:y
+						[$\delta$,non-decorate-node]
+						[$\varepsilon$,non-decorate-node]
+					]
+				]
+			]
+		\end{forest}
+	}
+	{
+		\begin{forest}
+			rb-tree,
+			for tree={fit=band,l=0pt,s sep=1em}
+			[,empty-node
+				[C,red-node,label=right:{new z}
+					[A
+						[$\alpha$,non-decorate-node]
+						[B,red-node
+							[$\beta$,non-decorate-node]
+							[$\gamma$,non-decorate-node]
+						]
+					]
+					[D
+						[$\delta$,non-decorate-node]
+						[$\varepsilon$,non-decorate-node]
+					]
+				]
+			]
+		\end{forest}
+	}
+	{2cm}
+	{/}
+	\end{twotrees}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Phép chèn}
+	\framesubtitle{Trường hợp 1 (tiếp theo)}
+	\centering
+	\begin{twotrees}
+	{
+		\begin{forest}
+			rb-tree,
+			for tree={fit=band,l=0pt,s sep=1em}
+			[,empty-node
+				[C
+					[A,red-node
+						[B,red-node,label=right:z
+							[$\alpha$,non-decorate-node]
+							[$\beta$,non-decorate-node]
+						]
+						[$\gamma$,non-decorate-node]
+					]
+					[D,red-node,label=right:y
+						[$\delta$,non-decorate-node]
+						[$\varepsilon$,non-decorate-node]
+					]
+				]
+			]
+		\end{forest}
+	}
+	{
+		\begin{forest}
+			rb-tree,
+			for tree={fit=band,l=0pt,s sep=1em}
+			[,empty-node
+				[C,red-node,label=right:{new z}
+					[A
+						[B,red-node
+							[$\alpha$,non-decorate-node]
+							[$\beta$,non-decorate-node]
+						]
+						[$\gamma$,non-decorate-node]
+					]
+					[D
+						[$\delta$,non-decorate-node]
+						[$\varepsilon$,non-decorate-node]
+					]
+				]
+			]
+		\end{forest}
+	}
+	{2cm}
+	{/}
+	\end{twotrees}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Phép chèn}
+	\framesubtitle{Trường hợp 2}
+	\centering
+	\begin{twotrees}
+	{
+		\begin{forest}
+			rb-tree,
+			for tree={fit=band,l=0pt,s sep=1em}
+			[,empty-node
+				[C
+					[B,red-node
+						[A,red-node,label=right:z
+							[$\alpha$,non-decorate-node]
+							[$\beta$,non-decorate-node]
+						]
+						[$\gamma$,non-decorate-node]
+					]
+					[$\delta$,non-decorate-node,label=right:y]
+				]
+			]
+		\end{forest}
+	}
+	{
+		\begin{forest}
+			rb-tree,
+			for tree={fit=band,l=0pt,s sep=1em}
+			[,empty-node
+				[B
+					[A,red-node,label=left:z
+						[$\alpha$,non-decorate-node]
+						[$\beta$,non-decorate-node]
+					]
+					[C,red-node
+						[$\gamma$,non-decorate-node]
+						[$\delta$,non-decorate-node]
+					]
+				]
+			]
+		\end{forest}
+	}
+	{2cm}
+	{/}
+	\end{twotrees}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Phép chèn}
+	\framesubtitle{Trường hợp 3}
+	\centering
+	\begin{twotrees}
+	{
+		\begin{forest}
+			rb-tree,
+			for tree={fit=band,l=0pt,s sep=1em}
+			[,empty-node
+				[C
+					[A,red-node
+						[$\alpha$,non-decorate-node]
+						[B,red-node,label=right:z
+							[$\beta$,non-decorate-node]
+							[$\gamma$,non-decorate-node]
+						]
+					]
+					[$\delta$,non-decorate-node,label=right:y]
+				]
+			]
+		\end{forest}
+	}
+	{
+		\begin{forest}
+			rb-tree,
+			for tree={fit=band,l=0pt,s sep=1em}
+			[,empty-node
+				[C
+					[B,red-node
+						[A,red-node,label=right:z
+							[$\alpha$,non-decorate-node]
+							[$\beta$,non-decorate-node]
+						]
+						[$\gamma$,non-decorate-node]
+					]
+					[$\delta$,non-decorate-node,label=right:y]
+				]
+			]
+		\end{forest}
+	}
+	{2cm}
+	{/}
+	\end{twotrees}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Phép xóa}
+	\framesubtitle{Trường hợp 1}
+	\centering
+	\begin{twotrees}
+	{
+		\begin{forest}
+			rb-tree,for tree={fit=band,l=0pt,s sep=0.6em}
+			[,empty-node
+				[B,rand-node,label=right:c
+					[A,label=right:x
+						[$\alpha$,non-decorate-node]
+						[$\beta$,non-decorate-node]
+					]
+					[D,label=right:w
+						[C,rand-node,label=right:{c'}
+							[$\gamma$,non-decorate-node]
+							[$\delta$,non-decorate-node]
+						]
+						[E,red-node
+							[$\varepsilon$,non-decorate-node]
+							[$\zeta$,non-decorate-node]
+						]
+					]
+				]	
+			]
+		\end{forest}
+	}
+	{
+		\begin{forest}
+			rb-tree,for tree={fit=band,l=0pt,s sep=0.6em}
+			[,empty-node
+				[D,rand-node,label=right:c
+					[B
 						[A
-							[$\alpha$,none-node]
-							[B,red-node
-								[$\beta$,none-node]
-								[$\gamma$,none-node]
-							]
+							[$\alpha$,non-decorate-node]
+							[$\beta$,non-decorate-node]
 						]
-						[D
-							[$\delta$,none-node]
-							[$\epsilon$,none-node]
+						[C,rand-node,label=right:{c'}
+							[$\gamma$,non-decorate-node]
+							[$\delta$,non-decorate-node]
 						]
 					]
-				\end{forest}
-			};
-			\draw[->, thick, cyan] 
-			    (lefttree.east) -- (righttree.west);
-		\end{tikzpicture}
-		\\
-		\begin{tikzpicture}[>=Stealth]
-			\node (lefttree) {
-				\begin{forest}
-					rb-tree,
-					for tree={fit=band,l=0pt,s sep=1em}
-					[C
-						[A,red-node
-							[B,red-node,label=right:z
-								[$\alpha$,none-node]
-								[$\beta$,none-node]
-							]
-							[$\gamma$,none-node]
+					[E,
+						[$\varepsilon$,non-decorate-node]
+						[$\zeta$,non-decorate-node]
+					]
+				]
+			]
+		\end{forest}
+	}
+	{2cm}
+	{/}
+	\end{twotrees}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Phép xóa}
+	\framesubtitle{Trường hợp 2}
+	\centering
+	\begin{twotrees}
+	{
+		\begin{forest}
+			rb-tree,for tree={fit=band,l=0pt,s sep=0.6em}
+			[,empty-node
+				[B,rand-node,label=right:c
+					[A,label=right:x
+						[$\alpha$,non-decorate-node]
+						[$\beta$,non-decorate-node]
+					]
+					[D,label=right:w
+						[C,red-node
+							[$\gamma$,non-decorate-node]
+							[$\delta$,non-decorate-node]
 						]
-						[D,red-node,label=right:y
-							[$\delta$,none-node]
-							[$\epsilon$,none-node]
+						[E
+							[$\varepsilon$,non-decorate-node]
+							[$\zeta$,non-decorate-node]
 						]
 					]
-				\end{forest}
-			};
-			% Cây bên phải (xoay phải)
-			\node[right=2cm of lefttree] (righttree) {
-				\begin{forest}
-					rb-tree,
-					for tree={fit=band,l=0pt,s sep=1em}
-					[C,red-node,label=right:{new z}
-						[A
-							[B,red-node
-								[$\alpha$,none-node]
-								[$\beta$,none-node]
+				]	
+			]
+		\end{forest}
+	}
+	{
+		\begin{forest}
+			rb-tree,for tree={fit=band,l=0pt,s sep=0.6em}
+			[,empty-node
+				[B,rand-node,label=right:c
+					[A,label=right:x
+						[$\alpha$,non-decorate-node]
+						[$\beta$,non-decorate-node]
+					]
+					[C,label=right:{new w}
+						[$\gamma$,non-decorate-node]
+						[D,red-node
+							[$\delta$,non-decorate-node]
+							[E
+								[$\varepsilon$,non-decorate-node]
+								[$\zeta$,non-decorate-node]
 							]
-							[$\gamma$,none-node]
-						]
-						[D
-							[$\delta$,none-node]
-							[$\epsilon$,none-node]
 						]
 					]
-				\end{forest}
-			};
-			\draw[->, thick, cyan] 
-			    (lefttree.east) -- (righttree.west);
-		\end{tikzpicture}
-	\end{block}
+				]	
+			]
+		\end{forest}
+	}
+	{2cm}
+	{/}
+	\end{twotrees}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Phép xóa}
+	\framesubtitle{Trường hợp 3}
+	\begin{twotrees}
+	{
+		\begin{forest}
+			rb-tree,for tree={fit=band,l=0pt,s sep=0.6em}
+			[,empty-node
+				[B,rand-node,label=right:c
+					[A,label=left:x
+						[$\alpha$,non-decorate-node]
+						[$\beta$,non-decorate-node]
+					]
+					[D,label=right:w
+						[C
+							[$\gamma$,non-decorate-node]
+							[$\delta$,non-decorate-node]
+						]
+						[E
+							[$\varepsilon$,non-decorate-node]
+							[$\zeta$,non-decorate-node]
+						]
+					]
+				]
+			]
+		\end{forest}
+	}
+	{
+		\begin{forest}
+			rb-tree,for tree={fit=band,l=0pt,s sep=0.6em}
+			[,empty-node
+				[B,rand-node,label=right:c,label=left:{new x}
+					[A
+						[$\alpha$,non-decorate-node]
+						[$\beta$,non-decorate-node]
+					]
+					[D,red-node,label=right:w
+						[C
+							[$\gamma$,non-decorate-node]
+							[$\delta$,non-decorate-node]
+						]
+						[E
+							[$\varepsilon$,non-decorate-node]
+							[$\zeta$,non-decorate-node]
+						]
+					]
+				]
+			]
+		\end{forest}
+	}
+	{2cm}
+	{/}
+	\end{twotrees}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Phép xóa}
+	\framesubtitle{Trường hợp 4}
+	\begin{twotrees}
+	{
+		\begin{forest}
+			rb-tree, for tree={fit=band,l=0pt,s sep=0.6em}
+			[,empty-node
+				[B
+					[A,label=left:x
+						[$\alpha$,non-decorate-node]
+						[$\beta$,non-decorate-node]
+					]
+					[D,red-node,label=right:w
+						[C
+							[$\gamma$,non-decorate-node]
+							[$\delta$,non-decorate-node]
+						]
+						[E
+							[$\varepsilon$,non-decorate-node]
+							[$\zeta$,non-decorate-node]
+						]
+					]
+				]
+			]
+		\end{forest}
+	}
+	{
+		\begin{forest}
+			rb-tree,for tree={fit=band,l=0pt,s sep=0.6em}
+			[,empty-node
+				[D,
+					[B,red-node
+						[A,label=left:x
+							[$\alpha$,non-decorate-node]
+							[$\beta$,non-decorate-node]
+						]
+						[C,label=below right:{new w}
+							[$\gamma$,non-decorate-node]
+							[$\delta$,non-decorate-node]
+						]
+					]
+					[E,
+						[$\varepsilon$,non-decorate-node]
+						[$\zeta$,non-decorate-node]
+					]
+				]
+			]
+		\end{forest}
+	}
+	{2cm}
+	{/}
+	\end{twotrees}
 \end{frame}
