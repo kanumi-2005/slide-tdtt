@@ -48,6 +48,15 @@
 
     \begin{columns}
     \column{0.55\textwidth}
+
+     \begin{block}{Tìm kiếm}
+        \begin{itemize}
+            \item So sánh từ gốc đến lá.
+            \item Sang trái nếu nhỏ hơn, sang phải nếu lớn hơn.
+            \item Tìm thấy trả về node, không thì kết thúc.
+        \end{itemize}
+    \end{block}
+
     \begin{block}{Chèn}
         \begin{itemize}
             \item So sánh từ gốc đến lá.
@@ -56,13 +65,6 @@
         \end{itemize}
     \end{block}
 
-    \begin{block}{Tìm kiếm}
-        \begin{itemize}
-            \item So sánh từ gốc đến lá.
-            \item Sang trái/phải theo giá trị.
-            \item Tìm thấy trả về node, không thì kết thúc.
-        \end{itemize}
-    \end{block}
     \column{0.45\textwidth}
     \centering
     \begin{forest}
@@ -163,6 +165,9 @@
     \frametitle{\insertsection}
     \framesubtitle{Tại sao cần cây tự cân bằng?}
 
+    \begin{columns}
+    %===== LEFT COLUMN =====
+    \column{0.55\textwidth}
     \begin{block}{Vấn đề của cây nhị phân tìm kiếm (BST)}
         BST thông thường rất phụ thuộc vào \textbf{thứ tự chèn}. 
         Nếu dữ liệu được chèn theo thứ tự tăng/giảm dần:
@@ -174,6 +179,33 @@
         Điều này không phù hợp cho các hệ thống cần hiệu năng ổn định.
     \end{block}
 
+    %===== RIGHT COLUMN =====
+    \column{0.45\textwidth}
+    \centering
+    \begin{forest}
+    tree,for tree={font=\normalfont,fit=band,minimum size=2em}
+    [1
+        [,phantom]        % left child (empty)
+        [2
+            [,phantom]
+            [3
+                [,phantom]
+                [4
+                    [,phantom]
+                    [5]
+                ]
+            ]
+        ]
+    ]
+    \end{forest}
+    \end{columns}
+
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{\insertsection}
+    \framesubtitle{Tại sao cần cây tự cân bằng?}
     \begin{alertblock}{Nhu cầu thực tế}
         Cần một cấu trúc dữ liệu đảm bảo:
         \begin{itemize}
