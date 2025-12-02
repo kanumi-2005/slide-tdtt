@@ -101,7 +101,10 @@
     \frametitle{Định nghĩa hệ số cân bằng}
     Hệ số cân bằng của một nút được tính bằng
     \[
-    bf(x) = h(x.right) - h(x.left)
+    bf(x) = \begin{cases}
+        0 & \text{nếu $x = nil$}\\
+        h(x.right) - h(x.left) & \text{nếu $x \neq nil$}
+    \end{cases}
     \]
 \end{frame}
 
