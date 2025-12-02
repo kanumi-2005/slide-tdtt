@@ -52,7 +52,7 @@
             -- cycle;                   % Về đỉnh (tạo cạnh huyền)
 
         % Text nằm bên TRÁI cạnh huyền
-        \node[anchor=east, xshift=-1mm] at ($(Dinh) + (-#4/2, -#3/2)$) {\tiny #5};
+        \node[anchor=east] at ($(Dinh) + (-#4/2, -#3/2)$) {\tiny #5};
     }{
         % =======================
         % TRƯỜNG HỢP: RIGHT (Vẽ sang phải - Mặc định)
@@ -65,7 +65,7 @@
             -- cycle;
 
         % Text nằm bên PHẢI cạnh huyền
-        \node[anchor=west, xshift=1mm] at ($(Dinh) + (#4/2, -#3/2)$) {\tiny #5};
+        \node[anchor=west] at ($(Dinh) + (#4/2, -#3/2)$) {\tiny #5};
     }
 }
 
@@ -444,31 +444,28 @@
 
 
 \begin{frame}
-    \frametitle{Phép chèn}
-    \begin{algorithm}[H]
-    \small
-    \SetAlgoLined
-    1. Thực hiện phép chèn của BST\\
-    2. Cập nhật chiều cao của nút hiện tại\\
-    3. Tính hệ số cân bằng của nút hiện tại\\
-    4. Xử lí các trường hợp cân bằng nếu nút mất cân bằng\\
-    5. Lặp lại bước 2-4 cho đến nút gốc\\
-    \caption{Phép chèn nút cây AVL}
-    \end{algorithm}
-
+    \frametitle{Phép chèn trong cây AVL}
+    \begin{block}{Thuật toán chèn nút cây AVL}
+    \begin{enumerate}
+    \item Thực hiện phép chèn của BST
+    \item Cập nhật chiều cao của nút hiện tại
+    \item Tính hệ số cân bằng của nút hiện tại
+    \item Xử lí các trường hợp cân bằng nếu nút mất cân bằng
+    \item Lặp lại bước 2--4 cho đến nút gốc
+    \end{enumerate}
+    \end{block}
 \end{frame}
 
 
 \begin{frame}
-    \frametitle{Phép xóa}
-    \begin{algorithm}[H]
-    \small
-    \SetAlgoLined
-    1. Thực hiện phép xóa của BST\\
-    2. Cập nhật chiều cao của nút hiện tại\\
-    3. Tính hệ số cân bằng của nút hiện tại\\
-    4. Xử lí các trường hợp cân bằng (LL, LR, RR, RL) nếu mất cân bằng\\
-    5. Lặp lại bước 2-4 đi lên đến nút gốc\\
-    \caption{Phép xóa nút cây AVL}
-    \end{algorithm}
+    \frametitle{Phép xóa trong cây AVL}
+    \begin{block}{Thuật toán xóa nút cây AVL}
+    \begin{enumerate}
+    \item Thực hiện phép xóa của BST
+    \item Cập nhật chiều cao của nút hiện tại
+    \item Tính hệ số cân bằng của nút hiện tại
+    \item Xử lí các trường hợp cân bằng (LL, LR, RR, RL) nếu mất cân bằng
+    \item Lặp lại bước 2-4 đi lên đến nút gốc
+    \end{enumerate}
+    \end{block}
 \end{frame}
