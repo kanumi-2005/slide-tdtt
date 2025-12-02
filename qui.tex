@@ -90,8 +90,8 @@
     Chiều cao của một nút là độ dài đường đi dài nhất từ nút đó đến lá
     \[
     h(x) = \begin{cases} 
-        0 & \text{nếu $x = nil$} \\
-        1 + \max(h(n.left), h(n.right)) & \text{nếu $x \neq nil$}
+        0 & \text{nếu $x = \mathrm{nil}$} \\
+        1 + \max(h(x.left), h(x.right)) & \text{nếu $x \neq \mathrm{nil}$}
     \end{cases}
     \]
 \end{frame}
@@ -102,8 +102,8 @@
     Hệ số cân bằng của một nút được tính bằng
     \[
     bf(x) = \begin{cases}
-        0 & \text{nếu $x = nil$}\\
-        h(x.right) - h(x.left) & \text{nếu $x \neq nil$}
+        0 & \text{nếu $x = \mathrm{nil}$}\\
+        h(x.right) - h(x.left) & \text{nếu $x \neq \mathrm{nil}$}
     \end{cases}
     \]
 \end{frame}
