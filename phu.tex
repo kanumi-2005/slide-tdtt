@@ -148,9 +148,21 @@
 	\end{twotrees}
 \end{frame}
 
+\begin{frame}
+	\frametitle{Phép chèn trong cây đỏ-đen}
+	\framesubtitle{Thuật toán}
+	
+	\begin{block}{Thuật toán chèn nút cây đỏ-đen}
+		\begin{enumerate}
+			\item Thực hiện phép chèn của BST
+			\item Tô màu nút mới màu đỏ
+			\item Thực hiện sửa lỗi tại nút mới
+		\end{enumerate}
+	\end{block}
+\end{frame}
 
 \begin{frame}
-	\frametitle{Phép chèn}
+	\frametitle{Lỗi phép chèn trong cây-đỏ}
 	\framesubtitle{Trường hợp 1}
 	\centering
 	\begin{twotrees}
@@ -160,120 +172,18 @@
 			for tree={fit=band,l=0pt,s sep=1em}
 			[,empty-node
 				[C
-					[A,red-node
-						[$\alpha$,non-decorate-node]
-						[B,red-node,label=right:z
-							[$\beta$,non-decorate-node]
-							[$\gamma$,non-decorate-node]
-						]
-					]
-					[D,red-node,label=right:y
-						[$\delta$,non-decorate-node]
-						[$\varepsilon$,non-decorate-node]
-					]
-				]
-			]
-		\end{forest}
-	}
-	{
-		\begin{forest}
-			rb-tree,
-			for tree={fit=band,l=0pt,s sep=1em}
-			[,empty-node
-				[C,red-node,label=right:{new z}
-					[A
-						[$\alpha$,non-decorate-node]
-						[B,red-node
-							[$\beta$,non-decorate-node]
-							[$\gamma$,non-decorate-node]
-						]
-					]
-					[D
-						[$\delta$,non-decorate-node]
-						[$\varepsilon$,non-decorate-node]
-					]
-				]
-			]
-		\end{forest}
-	}
-	{2cm}
-	{/}
-	\end{twotrees}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Phép chèn}
-	\framesubtitle{Trường hợp 1 (tiếp theo)}
-	\centering
-	\begin{twotrees}
-	{
-		\begin{forest}
-			rb-tree,
-			for tree={fit=band,l=0pt,s sep=1em}
-			[,empty-node
-				[C
-					[A,red-node
-						[B,red-node,label=right:z
-							[$\alpha$,non-decorate-node]
-							[$\beta$,non-decorate-node]
-						]
-						[$\gamma$,non-decorate-node]
-					]
-					[D,red-node,label=right:y
-						[$\delta$,non-decorate-node]
-						[$\varepsilon$,non-decorate-node]
-					]
-				]
-			]
-		\end{forest}
-	}
-	{
-		\begin{forest}
-			rb-tree,
-			for tree={fit=band,l=0pt,s sep=1em}
-			[,empty-node
-				[C,red-node,label=right:{new z}
-					[A
-						[B,red-node
-							[$\alpha$,non-decorate-node]
-							[$\beta$,non-decorate-node]
-						]
-						[$\gamma$,non-decorate-node]
-					]
-					[D
-						[$\delta$,non-decorate-node]
-						[$\varepsilon$,non-decorate-node]
-					]
-				]
-			]
-		\end{forest}
-	}
-	{2cm}
-	{/}
-	\end{twotrees}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Phép chèn}
-	\framesubtitle{Trường hợp 2}
-	\centering
-	\begin{twotrees}
-	{
-		\begin{forest}
-			rb-tree,
-			for tree={fit=band,l=0pt,s sep=1em}
-			[,empty-node
-				[C
 					[B,red-node
-						[A,red-node,label=right:z
+						[A,red-node,label=right:x
 							[$\alpha$,non-decorate-node]
 							[$\beta$,non-decorate-node]
 						]
 						[$\gamma$,non-decorate-node]
 					]
-					[$\delta$,non-decorate-node,label=right:y]
+					[$\delta$,non-decorate-node,label=right:u,name=delta]
 				]
 			]
+			\node (B) at ([xshift=0.5cm,yshift=-0.5cm] delta) {đen}; % node ở cuối mũi tên
+			\draw[->, bend right=20] (delta.south) to (B.west);
 		\end{forest}
 	}
 	{
@@ -282,7 +192,7 @@
 			for tree={fit=band,l=0pt,s sep=1em}
 			[,empty-node
 				[B
-					[A,red-node,label=left:z
+					[A,red-node,label=left:x
 						[$\alpha$,non-decorate-node]
 						[$\beta$,non-decorate-node]
 					]
@@ -300,7 +210,55 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Phép chèn}
+	\frametitle{Lỗi phép chèn trong cây đỏ-đen}
+	\framesubtitle{Trường hợp 2}
+	\centering
+	\begin{twotrees}
+	{
+		\begin{forest}
+			rb-tree,
+			for tree={fit=band,l=0pt,s sep=1em}
+			[,empty-node
+				[C
+					[A,red-node
+						[$\alpha$,non-decorate-node]
+						[B,red-node,label=right:x
+							[$\beta$,non-decorate-node]
+							[$\gamma$,non-decorate-node]
+						]
+					]
+					[$\delta$,non-decorate-node,label=right:u,name=delta]
+				]
+			]
+			\node (B) at ([xshift=0.5cm,yshift=-0.5cm] delta) {đen}; % node ở cuối mũi tên
+			\draw[->, bend right=20] (delta.south) to (B.west);
+		\end{forest}
+	}
+	{
+		\begin{forest}
+			rb-tree,
+			for tree={fit=band,l=0pt,s sep=1em}
+			[,empty-node
+				[C
+					[B,red-node,s sep=2.2em
+						[A,red-node,label=right:{new x}
+							[$\alpha$,non-decorate-node]
+							[$\beta$,non-decorate-node]
+						]
+						[$\gamma$,non-decorate-node]
+					]
+					[$\delta$,non-decorate-node,label=right:u]
+				]
+			]
+		\end{forest}
+	}
+	{2cm}
+	{/}
+	\end{twotrees}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Lỗi phép chèn trong cây đỏ-đen}
 	\framesubtitle{Trường hợp 3}
 	\centering
 	\begin{twotrees}
@@ -312,12 +270,15 @@
 				[C
 					[A,red-node
 						[$\alpha$,non-decorate-node]
-						[B,red-node,label=right:z
+						[B,red-node,label=right:x
 							[$\beta$,non-decorate-node]
 							[$\gamma$,non-decorate-node]
 						]
 					]
-					[$\delta$,non-decorate-node,label=right:y]
+					[D,red-node,label=right:u
+						[$\delta$,non-decorate-node]
+						[$\varepsilon$,non-decorate-node]
+					]
 				]
 			]
 		\end{forest}
@@ -327,15 +288,18 @@
 			rb-tree,
 			for tree={fit=band,l=0pt,s sep=1em}
 			[,empty-node
-				[C
-					[B,red-node
-						[A,red-node,label=right:z
-							[$\alpha$,non-decorate-node]
+				[C,red-node,label=right:{new x}
+					[A
+						[$\alpha$,non-decorate-node]
+						[B,red-node
 							[$\beta$,non-decorate-node]
+							[$\gamma$,non-decorate-node]
 						]
-						[$\gamma$,non-decorate-node]
 					]
-					[$\delta$,non-decorate-node,label=right:y]
+					[D
+						[$\delta$,non-decorate-node]
+						[$\varepsilon$,non-decorate-node]
+					]
 				]
 			]
 		\end{forest}
@@ -345,9 +309,72 @@
 	\end{twotrees}
 \end{frame}
 
+\begin{frame}
+	\frametitle{Lỗi phép chèn  trong cây đỏ-đen}
+	\framesubtitle{Trường hợp 3 (tiếp theo)}
+	\centering
+	\begin{twotrees}
+	{
+		\begin{forest}
+			rb-tree,
+			for tree={fit=band,l=0pt,s sep=1em}
+			[,empty-node
+				[C
+					[A,red-node
+						[B,red-node,label=right:x
+							[$\alpha$,non-decorate-node]
+							[$\beta$,non-decorate-node]
+						]
+						[$\gamma$,non-decorate-node]
+					]
+					[D,red-node,label=right:u
+						[$\delta$,non-decorate-node]
+						[$\varepsilon$,non-decorate-node]
+					]
+				]
+			]
+		\end{forest}
+	}
+	{
+		\begin{forest}
+			rb-tree,
+			for tree={fit=band,l=0pt,s sep=1em}
+			[,empty-node
+				[C,red-node,label=right:{new x}
+					[A
+						[B,red-node
+							[$\alpha$,non-decorate-node]
+							[$\beta$,non-decorate-node]
+						]
+						[$\gamma$,non-decorate-node]
+					]
+					[D
+						[$\delta$,non-decorate-node]
+						[$\varepsilon$,non-decorate-node]
+					]
+				]
+			]
+		\end{forest}
+	}
+	{2cm}
+	{/}
+	\end{twotrees}
+\end{frame}
 
 \begin{frame}
-	\frametitle{Phép xóa}
+	\frametitle{Phép xóa trong cây đỏ-đen}
+	\framesubtitle{Thuật toán}
+	\begin{block}{Thuật toán xóa nút cây đỏ-đen}
+		\begin{enumerate}
+			\item Thực hiện phép xóa của BST (khi thay thế nút, không thay thế màu)
+			\item Thực hiện sửa lỗi tại vị trí bị ảnh hưởng (vị trí bị xóa thực sự)
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Lỗi phép xóa trong cây đỏ-đen}
 	\framesubtitle{Trường hợp 1}
 	\centering
 	\begin{twotrees}
@@ -355,13 +382,13 @@
 		\begin{forest}
 			rb-tree,for tree={fit=band,l=0pt,s sep=0.6em}
 			[,empty-node
-				[B,rand-node,label=right:c
+				[B,rand-node,label=right:p
 					[A,label=right:x
 						[$\alpha$,non-decorate-node]
 						[$\beta$,non-decorate-node]
 					]
-					[D,label=right:w
-						[C,rand-node,label=right:{c'}
+					[D,label=right:s
+						[C,rand-node,label=right:{n}
 							[$\gamma$,non-decorate-node]
 							[$\delta$,non-decorate-node]
 						]
@@ -378,13 +405,13 @@
 		\begin{forest}
 			rb-tree,for tree={fit=band,l=0pt,s sep=0.6em}
 			[,empty-node
-				[D,rand-node,label=right:c
+				[D,rand-node
 					[B
 						[A
 							[$\alpha$,non-decorate-node]
 							[$\beta$,non-decorate-node]
 						]
-						[C,rand-node,label=right:{c'}
+						[C,rand-node,label=right:{n}
 							[$\gamma$,non-decorate-node]
 							[$\delta$,non-decorate-node]
 						]
@@ -404,7 +431,7 @@
 
 
 \begin{frame}
-	\frametitle{Phép xóa}
+	\frametitle{Lỗi phép xóa trong cây đỏ-đen}
 	\framesubtitle{Trường hợp 2}
 	\centering
 	\begin{twotrees}
@@ -412,13 +439,13 @@
 		\begin{forest}
 			rb-tree,for tree={fit=band,l=0pt,s sep=0.6em}
 			[,empty-node
-				[B,rand-node,label=right:c
+				[B,rand-node,label=right:p
 					[A,label=right:x
 						[$\alpha$,non-decorate-node]
 						[$\beta$,non-decorate-node]
 					]
-					[D,label=right:w
-						[C,red-node
+					[D,label=right:s
+						[C,red-node,label=right:n
 							[$\gamma$,non-decorate-node]
 							[$\delta$,non-decorate-node]
 						]
@@ -435,14 +462,14 @@
 		\begin{forest}
 			rb-tree,for tree={fit=band,l=0pt,s sep=0.6em}
 			[,empty-node
-				[B,rand-node,label=right:c
+				[B,rand-node,label=right:p
 					[A,label=right:x
 						[$\alpha$,non-decorate-node]
 						[$\beta$,non-decorate-node]
 					]
-					[C,label=right:{new w}
+					[C,label=right:{new s}
 						[$\gamma$,non-decorate-node]
-						[D,red-node
+						[D,red-node,label=right:{new n}
 							[$\delta$,non-decorate-node]
 							[E
 								[$\varepsilon$,non-decorate-node]
@@ -454,26 +481,26 @@
 			]
 		\end{forest}
 	}
-	{2cm}
+	{1.8cm}
 	{/}
 	\end{twotrees}
 \end{frame}
 
 
 \begin{frame}
-	\frametitle{Phép xóa}
+	\frametitle{Lỗi phép xóa trong cây đỏ-đen}
 	\framesubtitle{Trường hợp 3}
 	\begin{twotrees}
 	{
 		\begin{forest}
 			rb-tree,for tree={fit=band,l=0pt,s sep=0.6em}
 			[,empty-node
-				[B,rand-node,label=right:c
+				[B,rand-node,label=right:p
 					[A,label=left:x
 						[$\alpha$,non-decorate-node]
 						[$\beta$,non-decorate-node]
 					]
-					[D,label=right:w
+					[D,label=right:s
 						[C
 							[$\gamma$,non-decorate-node]
 							[$\delta$,non-decorate-node]
@@ -491,12 +518,12 @@
 		\begin{forest}
 			rb-tree,for tree={fit=band,l=0pt,s sep=0.6em}
 			[,empty-node
-				[B,rand-node,label=right:c,label=left:{new x}
+				[B,rand-node,label=right:p,label=left:{new x}
 					[A
 						[$\alpha$,non-decorate-node]
 						[$\beta$,non-decorate-node]
 					]
-					[D,red-node,label=right:w
+					[D,red-node,label=right:s
 						[C
 							[$\gamma$,non-decorate-node]
 							[$\delta$,non-decorate-node]
@@ -516,7 +543,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Phép xóa}
+	\frametitle{Lỗi phép xóa trong cây đỏ-đen}
 	\framesubtitle{Trường hợp 4}
 	\begin{twotrees}
 	{
@@ -528,7 +555,7 @@
 						[$\alpha$,non-decorate-node]
 						[$\beta$,non-decorate-node]
 					]
-					[D,red-node,label=right:w
+					[D,red-node,label=right:s
 						[C
 							[$\gamma$,non-decorate-node]
 							[$\delta$,non-decorate-node]
@@ -552,7 +579,7 @@
 							[$\alpha$,non-decorate-node]
 							[$\beta$,non-decorate-node]
 						]
-						[C,label=below right:{new w}
+						[C,label=below right:{new s}
 							[$\gamma$,non-decorate-node]
 							[$\delta$,non-decorate-node]
 						]
