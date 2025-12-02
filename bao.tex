@@ -56,8 +56,7 @@
             \item Tìm thấy trả về node, không thì kết thúc.
         \end{itemize}
     \end{block}
-
-    \begin{block}{Chèn}
+    \begin{block}<2>{Chèn}
         \begin{itemize}
             \item So sánh từ gốc đến lá.
             \item Sang trái nếu nhỏ hơn, sang phải nếu lớn hơn.
@@ -229,7 +228,11 @@
             \item Không phụ thuộc vào thứ tự dữ liệu đầu vào.
         \end{enumerate}
     \end{block}
+\end{frame}
 
+\begin{frame}
+    \frametitle{\insertsection}
+    \framesubtitle{Tại sao tồn tại cả AVL và Red-Black?}
     \begin{block}{Hai hướng giải khác nhau}
         Từ nhu cầu đó sinh ra hai cây điển hình:
         \begin{itemize}
@@ -238,12 +241,6 @@
         \end{itemize}
         Mỗi loại cây phù hợp với các ứng dụng khác nhau.
     \end{block}
-\end{frame}
-
-\begin{frame}
-    \frametitle{\insertsection}
-    \framesubtitle{Tại sao tồn tại cả AVL và Red-Black?}
-
     \begin{block}{Hai nhu cầu tối ưu khác nhau}
         \begin{itemize}
             \item Khi hệ thống cần \alert{tìm kiếm rất nhanh}, dữ liệu ít thay đổi → chọn \textbf{AVL}.
