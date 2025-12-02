@@ -86,8 +86,29 @@
 
 
 \begin{frame}
+    \frametitle{Định nghĩa độ cao}
+    Độ cao của một nút là độ dài đường đi dài nhất từ nút đó đến lá
+    \[
+    h(x) = \begin{cases} 
+        0 & \text{nếu $x = nil$} \\
+        1 + \max(h(n.left), h(n.right)) & \text{nếu $x \neq nil$}
+    \end{cases}
+    \]
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Định nghĩa hệ số cân bằng}
+    Hệ số cân bằng của một nút được tính bằng
+    \[
+    bf(x) = h(x.right) - h(x.left)
+    \]
+\end{frame}
+
+
+\begin{frame}
     \frametitle{Định nghĩa cây AVL}
-    Cây AVL được đặt tên theo Adelson-Velsky và Landis, là cây nhị phân tìm kiếm thỏa mãn chiều cao hai cây con của bất kỳ nút nào cũng không khác nhau quá một
+    Cây AVL được đặt tên theo Adelson-Velsky và Landis, là cây nhị phân tìm kiếm thỏa mãn độ lớn hệ số cân bằng của mọi nút không quá một
 \end{frame}
 
 \begin{frame}
@@ -104,32 +125,29 @@
     \begin{forest}
         for tree={s sep= 3mm},
         tree
-        [30
-            [20
-                [10
-                    [5
+        [30,label=above right:{\scriptsize -1}
+            [20,label=above left:{\scriptsize 0}
+                [10,label=above left:{\scriptsize -1}
+                    [5,label=above left:{\scriptsize 0}
                         [,nil-node]
                         [,nil-node]
                     ]
-                    [15
-                        [,nil-node]
-                        [,nil-node]
-                    ]
-                ]
-                [25
                     [,nil-node]
-                    [35 
+                ]
+                [25,label=above left:{\scriptsize 1}
+                    [,nil-node]
+                    [35,label=above right:{\scriptsize 0}
                         [,nil-node]
                         [,nil-node]
                     ]
                 ]
             ]
-            [45
-                [40
+            [45,label=above right:{\scriptsize 0}
+                [40,label=above right:{\scriptsize 0}
                     [,nil-node]
                     [,nil-node]
                 ]
-                [50
+                [50,label=above right:{\scriptsize 0}
                     [,nil-node]
                     [,nil-node]
                 ]
@@ -192,8 +210,8 @@
             tree,
             for tree={l sep=0pt,s sep=1.5em}
             [,empty-node
-                [D,s sep=2em
-                    [B
+                [D,s sep=2em,label=above left:{\scriptsize -2}
+                    [B,label=above left:{\scriptsize -1}
                         [A,name=A]
                         [C,name=C]
                     ]
@@ -211,9 +229,9 @@
             tree,
             for tree={l sep=0pt, s sep=1.5em}
             [,empty-node
-                [B,s sep=2em
+                [B,s sep=2em,label=above right:{\scriptsize 0}
                     [A,name=A]
-                    [D
+                    [D,label=above right:{\scriptsize 0}
                         [C,name=C]
                         [E,name=E]
                     ]
@@ -241,8 +259,8 @@
             tree,
             for tree={l sep=0pt,s sep=1.5em}
             [,empty-node
-                [D,s sep=2em
-                    [B
+                [D,s sep=2em,label=above left:{\scriptsize -2}
+                    [B,label=above left:{\scriptsize 1}
                         [A,name=A]
                         [C,name=C]
                     ]
@@ -260,8 +278,8 @@
             tree,
             for tree={l sep=0pt, s sep=0.5em}
             [,empty-node
-                [D
-                    [C, name=C
+                [D,label=above left:{\scriptsize -2}
+                    [C,name=C,label=above left:{\scriptsize -1}
                         [B,name=B
                             [A,name=A]
                             [,phantom]
@@ -286,12 +304,12 @@
             tree,
             for tree={l sep=0pt, s sep=0.5em}
             [,empty-node
-                [C,s sep=1.5em
-                    [B,name=B
+                [C,s sep=1.5em,label=above right:{\scriptsize 0}
+                    [B,name=B,label=above left:{\scriptsize 0}
                         [A,name=A]
                         [,phantom]
                     ]
-                    [D,name=D
+                    [D,name=D,label=above right:{\scriptsize 0}
                         [,phantom]
                         [E,name=E]
                     ]
@@ -320,9 +338,9 @@
             tree,
             for tree={l sep=0pt,s sep=1.5em}
             [,empty-node
-                [B,s sep=2em
+                [B,s sep=2em,label=above right:{\scriptsize 2}
                     [A,name=A]
-                    [D
+                    [D,label=above right:{\scriptsize 1}
                         [C,name=C]
                         [E,name=E]
                     ]
@@ -340,8 +358,8 @@
             tree,
             for tree={l sep=0pt, s sep=1.5em}
             [,empty-node
-                [D,s sep=2em
-                    [B
+                [D,s sep=2em,label=above left:{\scriptsize 0}
+                    [B,label=above left:{\scriptsize 0}
                         [A,name=A]
                         [C,name=C]
                     ]
@@ -371,9 +389,9 @@
             tree,
             for tree={l sep=0pt,s sep=1.5em}
             [,empty-node
-                [A,s sep=2em
+                [A,s sep=2em,label=above right:{\scriptsize 2}
                     [D,name=D] % Cây con trái A (h)
-                    [C
+                    [C,label=above right:{\scriptsize -1}
                         [B,name=B]   % Cây con trái C (Gây mất cân bằng - h+1)
                         [E,name=E]   % Cây con phải C (h)
                     ]
@@ -392,12 +410,12 @@
             tree,
             for tree={l sep=0pt, s sep=0.5em}
             [,empty-node
-                [A
+                [A,label=above right:{\scriptsize 2}
                     [D, name=D
                         [,phantom]
                         [,phantom]
                     ]
-                    [B, name=B
+                    [B, name=B,label=above right:{\scriptsize 1}
                         [,phantom]
                         [C, name=C
                             [,phantom]
@@ -419,12 +437,12 @@
             tree,
             for tree={l sep=0pt, s sep=0.5em}
             [,empty-node
-                [B,s sep=1.5em
-                    [A,name=A
+                [B,s sep=1.5em,label=above right:{\scriptsize 0}
+                    [A,name=A,label=above left:{\scriptsize 0}
                         [D,name=D]
                         [,phantom]
                     ]
-                    [C,name=C
+                    [C,name=C,label=above right:{\scriptsize 0}
                         [,phantom]
                         [E,name=E]
                     ]
