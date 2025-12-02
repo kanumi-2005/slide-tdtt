@@ -80,14 +80,14 @@
         \item[key] Giá trị của nút.
         \item[left] Nút con bên trái.
         \item[right] Nút con bên phải.
-        \item[height] Chiều cao của nút.
+        \item[balance] Hệ số cân bằng của nút.
     \end{description}
 \end{frame}
 
 
 \begin{frame}
-    \frametitle{Định nghĩa độ cao}
-    Độ cao của một nút là độ dài đường đi dài nhất từ nút đó đến lá
+    \frametitle{Định nghĩa chiều cao}
+    Chiều cao của một nút là độ dài đường đi dài nhất từ nút đó đến lá
     \[
     h(x) = \begin{cases} 
         0 & \text{nếu $x = nil$} \\
@@ -111,7 +111,7 @@
 
 \begin{frame}
     \frametitle{Định nghĩa cây AVL}
-    Cây AVL được đặt tên theo Adelson-Velsky và Landis, là cây nhị phân tìm kiếm thỏa mãn độ lớn hệ số cân bằng của mọi nút không quá một
+    Cây AVL được đặt tên theo Adelson-Velsky và Landis, là cây nhị phân tìm kiếm thỏa mãn chiều cao hai cây con của mỗi nút sai khác nhau không quá một
 \end{frame}
 
 \begin{frame}
@@ -469,10 +469,8 @@
     \begin{block}{Thuật toán chèn nút cây AVL}
     \begin{enumerate}
     \item Thực hiện phép chèn của BST
-    \item Cập nhật chiều cao của nút hiện tại
-    \item Tính hệ số cân bằng của nút hiện tại
     \item Xử lí các trường hợp cân bằng nếu nút mất cân bằng
-    \item Lặp lại bước 2--4 cho đến nút gốc
+    \item Lặp lại bước 2 cho đến nút gốc
     \end{enumerate}
     \end{block}
 \end{frame}
@@ -483,10 +481,14 @@
     \begin{block}{Thuật toán xóa nút cây AVL}
     \begin{enumerate}
     \item Thực hiện phép xóa của BST
-    \item Cập nhật chiều cao của nút hiện tại
-    \item Tính hệ số cân bằng của nút hiện tại
-    \item Xử lí các trường hợp cân bằng nếu mất cân bằng
-    \item Lặp lại bước 2-4 đi lên đến nút gốc
+    \item Xử lí các trường hợp cân bằng nếu nút mất cân bằng
+    \item Lặp lại bước 2 cho đến nút gốc
     \end{enumerate}
     \end{block}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Đánh giá thao tác cân bằng}
+    Độ phức tạp thao tác cân bằng trong phép chèn và xóa trong cây AVL là $\Theta(\log n)$
 \end{frame}
