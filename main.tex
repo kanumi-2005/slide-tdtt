@@ -1,5 +1,5 @@
 %!TeX program = lualatex
-\documentclass{beamer}
+\documentclass[handout]{beamer}
 \usepackage{forest} % Vẽ cây
 \usepackage{polyglossia} 
 \setdefaultlanguage{vietnamese}
@@ -9,48 +9,75 @@
 \usepackage{tabularray}
 
 \usetikzlibrary{arrows.meta,matrix,positioning}
-
+\usepackage{minted}
 
 \usepackage[skip=6pt]{caption}  % trong preamble
 \captionsetup[table]{position=above}
 
+\tikzset{
+  invisible/.style={opacity=0, text opacity=0},
+  visible on/.style={alt={#1{}{invisible}}},
+  alt/.code args={<#1>#2#3}{%
+    \alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} % Nếu đúng slide: hiện (#2), sai: ẩn (#3)
+  }
+}
+% ----------------------------------------------------------------
+
 \ExplSyntaxOn
 
-\NewDocumentEnvironment{twotrees}{mmmm}
+\bool_new:N \l_phu_pause_bool
+
+\keys_define:nn { phu / twotrees }
  {
-   % Split note by "/" into two parts
-   \seq_set_split:Nnn \l_tmpa_seq {/} {#4}
+   pause .bool_set:N = \l_phu_pause_bool,
+   pause .default:n = true,
+ }
+
+\NewDocumentEnvironment{twotrees}{ O{} m m m m }
+ {
+   \bool_set_false:N \l_phu_pause_bool
+   \keys_set:nn { phu / twotrees } { #1 }
+
+   % --- GIẢI PHÁP AN TOÀN TUYỆT ĐỐI ---
+   % Thay vì chèn biến vào lệnh \node, ta định nghĩa style cho TikZ ngay tại đây.
+   \bool_if:NTF \l_phu_pause_bool
+     {
+        % Nếu Pause: Node hiện lần lượt <+->, Mũi tên hiện cùng lúc <.->
+        \tikzset{ phu_node_style/.style = { visible~on=<+-> } }
+        \tikzset{ phu_arrow_style/.style = { visible~on=<.-> } }
+     }
+     {
+        % Nếu Không Pause: Không làm gì cả (hiện luôn)
+        \tikzset{ phu_node_style/.style = {} }
+        \tikzset{ phu_arrow_style/.style = {} }
+     }
+
+   \seq_set_split:Nnn \l_tmpa_seq {/} {#5}
    \seq_pop_left:NN \l_tmpa_seq \l_phu_note_left_tl
    \seq_pop_left:NN \l_tmpa_seq \l_phu_note_right_tl
 
-   \begin{tikzpicture}[>=Stealth]
+   \begin{tikzpicture}[>=stealth]
 
-	% Left tree
-	% Nên thêm anchor=north west (hoặc north) để dễ kiểm soát toạ độ gốc (0,0) là góc trên
-	\node[rectangle, draw, anchor=north\space west] (lefttree) at (0, 0) {#1};
-	
-	% Right tree
-	% SỬA:
-	% 1. `of lefttree.north east`: Đặt vị trí dựa trên góc TRÊN-PHẢI của cây trái.
-	% 2. `anchor=north west`: Neo góc TRÊN-TRÁI của cây phải vào vị trí đó.
-	\node[rectangle, draw, right=#3\space of\space lefttree.north\space east, anchor=north\space west] (righttree) {#2};
+    % --- CÂY TRÁI ---
+    % Dùng style "phu_node_style" đã định nghĩa ở trên. Không cần \exp_args rắc rối.
+    \node [phu_node_style, rectangle, draw, anchor=north\space west] (lefttree) at (0, 0) {#2};
+    
+    % --- CÂY PHẢI ---
+    % Vì dùng "visible on", lefttree vẫn nằm đó (tàng hình) nên righttree neo vào được -> HẾT LỖI.
+    \node [phu_node_style, rectangle, draw, right=#4\space of\space lefttree.north\space east, anchor=north\space west] (righttree) {#3};
 
-     % Draw arrow(s)
+     % --- MŨI TÊN ---
      \tl_if_blank:VTF \l_phu_note_right_tl
        {
-         %---- Only one note =>  left -> right
-         \draw[->, thick, cyan, text=black]
-           (lefttree.east) -- node[below]{\l_phu_note_left_tl} ($(lefttree.east)+(#3,0)$);
+         \draw [phu_arrow_style, ->, thick, cyan, text=black]
+           (lefttree.east) -- node[below]{\l_phu_note_left_tl} ($(lefttree.east)+(#4,0)$);
        }
        {
-         %---- Two notes =>  two arrows
-         % Lower arrow: left -> right
-         \draw[->, thick, cyan, text=black]
-           ($(lefttree.east)+(0,0.1cm)$) -- node[above,text=black]{\l_phu_note_left_tl} ($(lefttree.east)+(#3,0.1cm)$);
+         \draw [phu_arrow_style, ->, thick, cyan, text=black]
+           ($(lefttree.east)+(0,0.1cm)$) -- node[above,text=black]{\l_phu_note_left_tl} ($(lefttree.east)+(#4,0.1cm)$);
 
-         % Upper arrow: right -> left
-         \draw[<-, thick, yshift=6pt, cyan, text=black]
-           ($(lefttree.east)-(0,0.1cm)$) -- node[below]{\l_phu_note_right_tl} ($(lefttree.east)+(#3,-0.1cm)$);
+         \draw [phu_arrow_style, <-, thick, yshift=6pt, cyan, text=black]
+           ($(lefttree.east)-(0,0.1cm)$) -- node[below]{\l_phu_note_right_tl} ($(lefttree.east)+(#4,-0.1cm)$);
        }
  }
  {

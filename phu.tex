@@ -31,7 +31,7 @@
 \begin{frame}
 	\frametitle{Đặc điểm của đây đỏ-đen}
 	\begin{itemize}
-		\item Mọi đường đi từ nút gốc đến nút lá có số nút chênh nhau không quá 2 lần.
+		\item Hai đường đi đơn bất kì từ nút gốc đến nút lá có số nút chênh nhau không quá 2 lần.
 		\item Mọi cây con của cây đỏ-đen cũng là cây đỏ-đen\only<2->{ \alert<2>{nếu đổi màu nút gốc thành đen}}.
 		\item Tính chất cuối có thể thay \alert{nút bất kì} thành \alert{nút gốc}.
 	\end{itemize}
@@ -134,7 +134,7 @@
 			for tree={fit=tight,font=\scriptsize,s sep=2em,l=5mm}
 			[,empty-node
 				[x,rand-node
-					[$\gamma$,non-decorate-node]
+					[$\alpha$,non-decorate-node]
 					[y,rand-node
 						[$\beta$,non-decorate-node]
 						[$\gamma$,non-decorate-node]
@@ -162,10 +162,10 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Lỗi phép chèn trong cây-đỏ}
+	\frametitle{Lỗi phép chèn trong cây đỏ-đen}
 	\framesubtitle{Trường hợp 1}
 	\centering
-	\begin{twotrees}
+	\begin{twotrees}[pause]
 	{
 		\begin{forest}
 			rb-tree,
@@ -213,7 +213,7 @@
 	\frametitle{Lỗi phép chèn trong cây đỏ-đen}
 	\framesubtitle{Trường hợp 2}
 	\centering
-	\begin{twotrees}
+	\begin{twotrees}[pause]
 	{
 		\begin{forest}
 			rb-tree,
@@ -224,7 +224,7 @@
 						[$\alpha$,non-decorate-node]
 						[B,red-node,label=right:x
 							[$\beta$,non-decorate-node]
-							[$\gamma$,non-decorate-node]
+							[$\gamma$,non-decorate-node,name=gamma]
 						]
 					]
 					[$\delta$,non-decorate-node,label=right:u,name=delta]
@@ -232,6 +232,9 @@
 			]
 			\node (B) at ([xshift=0.5cm,yshift=-0.5cm] delta) {đen}; % node ở cuối mũi tên
 			\draw[->, bend right=20] (delta.south) to (B.west);
+			\pause
+			\node (B) at ([xshift=0.5cm,yshift=-0.5cm] gamma) {đen}; % node ở cuối mũi tên
+			\draw[->, bend right=20] (gamma.south) to (B.west);
 		\end{forest}
 	}
 	{
@@ -247,7 +250,7 @@
 						]
 						[$\gamma$,non-decorate-node]
 					]
-					[$\delta$,non-decorate-node,label=right:u]
+					[$\delta$,non-decorate-node,label=right:u,label=delta]
 				]
 			]
 		\end{forest}
@@ -261,7 +264,7 @@
 	\frametitle{Lỗi phép chèn trong cây đỏ-đen}
 	\framesubtitle{Trường hợp 3}
 	\centering
-	\begin{twotrees}
+	\begin{twotrees}[pause]
 	{
 		\begin{forest}
 			rb-tree,
@@ -313,7 +316,7 @@
 	\frametitle{Lỗi phép chèn  trong cây đỏ-đen}
 	\framesubtitle{Trường hợp 3 (tiếp theo)}
 	\centering
-	\begin{twotrees}
+	\begin{twotrees}[pause]
 	{
 		\begin{forest}
 			rb-tree,
@@ -386,7 +389,7 @@
 	\frametitle{Lỗi phép xóa trong cây đỏ-đen}
 	\framesubtitle{Trường hợp 1}
 	\centering
-	\begin{twotrees}
+	\begin{twotrees}[pause]
 	{
 		\begin{forest}
 			rb-tree,for tree={fit=band,l=0pt,s sep=0.6em}
@@ -443,7 +446,7 @@
 	\frametitle{Lỗi phép xóa trong cây đỏ-đen}
 	\framesubtitle{Trường hợp 2}
 	\centering
-	\begin{twotrees}
+	\begin{twotrees}[pause]
 	{
 		\begin{forest}
 			rb-tree,for tree={fit=band,l=0pt,s sep=0.6em}
@@ -499,7 +502,7 @@
 \begin{frame}
 	\frametitle{Lỗi phép xóa trong cây đỏ-đen}
 	\framesubtitle{Trường hợp 3}
-	\begin{twotrees}
+	\begin{twotrees}[pause]
 	{
 		\begin{forest}
 			rb-tree,for tree={fit=band,l=0pt,s sep=0.6em}
@@ -554,7 +557,7 @@
 \begin{frame}
 	\frametitle{Lỗi phép xóa trong cây đỏ-đen}
 	\framesubtitle{Trường hợp 4}
-	\begin{twotrees}
+	\begin{twotrees}[pause]
 	{
 		\begin{forest}
 			rb-tree, for tree={fit=band,l=0pt,s sep=0.6em}
@@ -609,7 +612,7 @@
 \begin{frame}
 	\frametitle{Đánh giá sửa lỗi xóa trong cây đỏ-đen}
 	Trong những trường hợp nào thì thì các thao tác sửa lỗi xóa thực hiện trong $O(1)$?
-	\begin{itemize}
+	\begin{itemize}[<+->]
 	\item Trường hợp 1
 	\item Trường hợp 2
 	\item \alert<3>{Trường hợp 4}
