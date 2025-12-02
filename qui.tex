@@ -101,7 +101,10 @@
     \frametitle{Định nghĩa hệ số cân bằng}
     Hệ số cân bằng của một nút được tính bằng
     \[
-    bf(x) = h(x.right) - h(x.left)
+    bf(x) = \begin{cases}
+        0 & \text{nếu $x = nil$}\\
+        h(x.right) - h(x.left) & \text{nếu $x \neq nil$}
+    \end{cases}
     \]
 \end{frame}
 
@@ -482,7 +485,7 @@
     \item Thực hiện phép xóa của BST
     \item Cập nhật chiều cao của nút hiện tại
     \item Tính hệ số cân bằng của nút hiện tại
-    \item Xử lí các trường hợp cân bằng (LL, LR, RR, RL) nếu mất cân bằng
+    \item Xử lí các trường hợp cân bằng nếu mất cân bằng
     \item Lặp lại bước 2-4 đi lên đến nút gốc
     \end{enumerate}
     \end{block}
