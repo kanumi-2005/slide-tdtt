@@ -1,5 +1,176 @@
 \section{Đặt vấn đề}
 
+% BST 
+\begin{frame}
+    \frametitle{\insertsection}
+    \framesubtitle{Ôn lại: Binary Search Tree (BST)}
+
+    \begin{columns}
+    %---- Left column ----
+    \column{0.5\textwidth}
+    \begin{block}{BST là gì?}
+        Một cấu trúc cây nhị phân trong đó:
+        \begin{itemize}
+            \item Mỗi node có giá trị.
+            \item Node trái chứa giá trị \textbf{nhỏ hơn}.
+            \item Node phải chứa giá trị \textbf{lớn hơn}.
+        \end{itemize}
+    \end{block}
+
+    %---- Right column ----
+    \column{0.5\textwidth}
+    \begin{center}
+    \begin{tikzpicture}[
+        every node/.style={circle,draw,minimum size=7mm},
+        level distance=1.2cm,
+        level 1/.style={sibling distance=25mm},
+        level 2/.style={sibling distance=15mm}
+    ]
+        \node {8}
+            child { node {4}
+                child { node {2} }
+                child { node {6} }
+            }
+            child { node {12}
+                child { node {10} }
+                child { node {14} }
+            };
+    \end{tikzpicture}
+    \end{center}
+    \end{columns}
+\end{frame}
+
+%BST Insert 
+
+\begin{frame}
+    \frametitle{\insertsection}
+    \framesubtitle{Chèn và Tìm kiếm trên BST}
+
+    \begin{columns}
+    \column{0.55\textwidth}
+    \begin{block}{Chèn}
+        \begin{itemize}
+            \item So sánh từ gốc đến lá.
+            \item Sang trái nếu nhỏ hơn, sang phải nếu lớn hơn.
+            \item Đến node lá thì thêm node mới vào với cha là node lá.
+        \end{itemize}
+    \end{block}
+
+    \begin{block}{Tìm kiếm}
+        \begin{itemize}
+            \item So sánh từ gốc đến lá.
+            \item Sang trái/phải theo giá trị.
+            \item Tìm thấy trả về node, không thì kết thúc.
+        \end{itemize}
+    \end{block}
+    \column{0.45\textwidth}
+    \begin{center}
+    \begin{tikzpicture}[
+        every node/.style={circle,draw,minimum size=7mm},
+        level distance=1.2cm,
+        level 1/.style={sibling distance=25mm},
+        level 2/.style={sibling distance=15mm}
+    ]
+        \node {8}
+            child { node {4}
+                child { node {2} }
+                child { node {6} }
+            }
+            child { node {12}
+                child { node {10} }
+                child { node {14} }
+            };
+    \end{tikzpicture}
+    \end{center}
+    \end{columns}
+\end{frame}
+
+% BST Delete 
+\begin{frame}
+    \frametitle{\insertsection}
+    \framesubtitle{Xóa trong BST}
+
+    \begin{columns}
+    \column{0.55\textwidth}
+    \begin{block}{Có 3 trường hợp xóa}
+        \begin{itemize}
+            \item \textbf{Node lá}: xóa trực tiếp.
+            \item \textbf{Node 1 con}: thay node bằng con đó.
+            \item \textbf{Node 2 con}: 
+            \begin{itemize}
+                \item Tìm node kế tiếp (nhỏ nhất cây con phải).
+                \item Thay giá trị node cần xóa bằng giá trị đó.
+                \item Xóa node kế tiếp (chỉ còn 0 hoặc 1 con).
+            \end{itemize}
+        \end{itemize}
+    \end{block}
+    \column{0.45\textwidth}
+    \begin{center}
+    \begin{tikzpicture}[
+        every node/.style={circle,draw,minimum size=7mm},
+        level distance=1.2cm,
+        level 1/.style={sibling distance=25mm},
+        level 2/.style={sibling distance=15mm}
+    ]
+        \node (root) {8}
+        child { node {4}
+            child { node {6} }
+        }
+        child { node (del) {12}
+            child { node (succ) {10} }
+            child { node {14}
+                child { node {13} }
+                child { node {15}
+                    child { node {16} }
+                }
+            }
+        };
+
+    \end{tikzpicture}
+    \end{center}
+    \end{columns}
+\end{frame}
+
+% BST Property
+
+\begin{frame}
+    \frametitle{\insertsection}
+    \framesubtitle{Đặc điểm của Binary Search Tree}
+
+    \begin{columns}
+    %---- Left column ----
+    \column{0.5\textwidth}
+    \begin{block}{Đặc điểm chính}
+        \begin{itemize}
+            \item Tìm kiếm trung bình: $O(\log n)$.
+            \item Chèn và xoá tương đối đơn giản.
+            \item Cấu trúc linh hoạt, dễ cài đặt.
+        \end{itemize}
+    \end{block}
+
+    %---- Right column ----
+    \column{0.5\textwidth}
+    \begin{center}
+    \begin{tikzpicture}[
+        every node/.style={circle,draw,minimum size=7mm},
+        level distance=1.2cm,
+        level 1/.style={sibling distance=25mm},
+        level 2/.style={sibling distance=15mm}
+    ]
+        \node {8}
+            child { node {4}
+                child { node {2} }
+                child { node {6} }
+            }
+            child { node {12}
+                child { node {10} }
+                child { node {14} }
+            };
+    \end{tikzpicture}
+    \end{center}
+    \end{columns}
+\end{frame}
+
 \begin{frame}
     \frametitle{\insertsection}
     \framesubtitle{Tại sao cần cây tự cân bằng?}
@@ -12,7 +183,7 @@
             \item Độ cao đạt $O(n)$.
             \item Tìm kiếm, chèn, xoá đều có độ phức tạp $O(n)$.
         \end{itemize}
-        Điều này không phù hợp cho các hệ thống lớn, cần hiệu năng ổn định.
+        Điều này không phù hợp cho các hệ thống cần hiệu năng ổn định.
     \end{block}
 
     \begin{alertblock}{Nhu cầu thực tế}
@@ -55,7 +226,7 @@
     \begin{block}{Hai nhu cầu tối ưu khác nhau}
         \begin{itemize}
             \item Khi hệ thống cần \alert{tìm kiếm rất nhanh}, dữ liệu ít thay đổi → chọn \textbf{AVL}.
-            \item Khi hệ thống cần \alert{chèn/xoá thường xuyên}, cập nhật liên tục → chọn \textbf{Red-Black Tree}.
+            \item Khi hệ thống cần \alert{chèn/xoá thường xuyên}, cập nhật liên tục → chọn \textbf{Cây Đỏ Đen}.
         \end{itemize}
     \end{block}
 \end{frame}
