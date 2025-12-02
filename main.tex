@@ -60,11 +60,11 @@
 
     % --- CÂY TRÁI ---
     % Dùng style "phu_node_style" đã định nghĩa ở trên. Không cần \exp_args rắc rối.
-    \node [phu_node_style, rectangle, draw, anchor=north\space west] (lefttree) at (0, 0) {#2};
+    \node [phu_node_style, anchor=north\space west] (lefttree) at (0, 0) {#2};
     
     % --- CÂY PHẢI ---
     % Vì dùng "visible on", lefttree vẫn nằm đó (tàng hình) nên righttree neo vào được -> HẾT LỖI.
-    \node [phu_node_style, rectangle, draw, right=#4\space of\space lefttree.north\space east, anchor=north\space west] (righttree) {#3};
+    \node [phu_node_style, right=#4\space of\space lefttree.north\space east, anchor=north\space west] (righttree) {#3};
 
      % --- MŨI TÊN ---
      \tl_if_blank:VTF \l_phu_note_right_tl
@@ -133,18 +133,18 @@
 
    % --- BƯỚC 1: VẼ CÂY 1 ---
    % Slide i: Hiện Cây 1
-   \node[phu_node_style, rectangle, draw, anchor=north~west] (treeOne) at (0, 0) {#2};
+   \node[phu_node_style, anchor=north~west] (treeOne) at (0, 0) {#2};
    
    % --- BƯỚC 2: VẼ CÂY 2 & MŨI TÊN 1 ---
    % Slide i+1: Hiện Cây 2 (nhờ style <+->) và Mũi tên 1 (nhờ style <.->)
-   \node[phu_node_style, rectangle, draw, right=#5~of~treeOne.north~east, anchor=north~west] (treeTwo) {#3};
+   \node[phu_node_style, right=#5~of~treeOne.north~east, anchor=north~west] (treeTwo) {#3};
    
    \draw[phu_arrow_style, ->, thick, cyan, text=black]
      (treeOne.east) -- node[above=2pt] {\l_label_one_tl} ($(treeOne.east)+(#5,0)$);
 
    % --- BƯỚC 3: VẼ CÂY 3 & MŨI TÊN 2 ---
    % Slide i+2: Hiện Cây 3 và Mũi tên 2
-   \node[phu_node_style, rectangle, draw, right=#5~of~treeTwo.north~east, anchor=north~west] (treeThree) {#4};
+   \node[phu_node_style, right=#5~of~treeTwo.north~east, anchor=north~west] (treeThree) {#4};
 
    \draw[phu_arrow_style, ->, thick, cyan, text=black]
      (treeTwo.east) -- node[above=2pt] {\l_label_two_tl} ($(treeTwo.east)+(#5,0)$);
@@ -232,5 +232,10 @@
 \import{}{qui.tex}
 \import{}{phu.tex}
 \import{}{an.tex}
+
+\begin{frame}[plain]
+\centering
+\fontsize{48pt}{20pt}\selectfont Q\&A
+\end{frame}
 
 \end{document}

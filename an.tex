@@ -2,16 +2,28 @@
 %!TeX root = main.tex
 % ------------------------- Slide code với minted, không nền -------------------------
 
+\section{Bài tập ứng dụng}
 % Bài 1: Concert Tickets
-\begin{frame}[fragile]{Bài 1: Concert Tickets}
-\textbf{Mục tiêu:} Tìm nút có khoá lớn nhất $\le x$.
-
-\textbf{Ý tưởng:}
+\begin{frame}[fragile]{Concert Tickets}
+\framesubtitle{Mô tả}
+\begin{block}{Tóm tắt}
+Có $n$ vé xem hòa nhạc, mỗi vé có một mức giá nhất định. Sau đó có $m$ khách hàng lần lượt đến mua vé. Mỗi khách hàng đưa ra mức giá tối đa mà họ sẵn sàng trả. Khi đó hệ thống sẽ bán cho khách hàng một vé có giá gần nhất nhưng không vượt quá mức giá tối đa đó.
 \begin{itemize}
-    \item Nếu $u\to key \le x$: chọn $u$ và tiếp tục sang cây con phải.
-    \item Nếu $u\to key > x$: tìm ở cây con trái.
+\item Sau khi một vé được bán, vé đó không thể được mua lại.
+\item Nếu một khách hàng không thể mua bất kỳ vé nào (tức là không có vé có giá không vượt quá mức giá họ đưa ra), in ra~-1.
 \end{itemize}
+\end{block}
+\begin{block}{Ràng buộc}
+\begin{itemize}
+    \item $1 \le n, m \le 2 \cdot 10^{5}$
+    \item $1 \le h_i, t_i \le 10^{9}$ ($h_i$ là giá của vé thứ $i$, $t_i$ là mức giá tối đa mà khách thứ $i$ có thể trả)
+\end{itemize}
+\end{block}
+\end{frame}
 
+\begin{frame}[fragile]
+\frametitle{Concert Tickets}
+\framesubtitle{Hàm hỗ trợ}
 \begin{minted}[fontsize=\small, linenos, breaklines]{c++}
 Node* find_predecessor(Node* u, int x) {
     Node* ans = nullptr;
@@ -22,11 +34,11 @@ Node* find_predecessor(Node* u, int x) {
     return ans;
 }
 \end{minted}
-
 \end{frame}
 
 % Bài 1: Giải pháp đầy đủ
-\begin{frame}[fragile]{Bài 1: Giải pháp đầy đủ}
+\begin{frame}[fragile]{Concert Tickets}
+\framesubtitle{Giải pháp đầy đủ}
 \begin{minted}[fontsize=\small, linenos, breaklines]{c++}
 vector<int> getTicketPrices(vector<int>& h, vector<int>& t) {
     Node* root = nullptr;
@@ -46,14 +58,14 @@ vector<int> getTicketPrices(vector<int>& h, vector<int>& t) {
 \end{frame}
 
 % Bài 2: Đếm số nghịch thế
-\begin{frame}[fragile]{Bài 2: Đếm số nghịch thế}
-\textbf{Mục tiêu:} Đếm số nút có khoá $\le x$.
-
-\textbf{Ý tưởng:}
+\begin{frame}[fragile]{Đếm số nghịch thế}
+\framesubtitle{Hàm hỗ trợ}
+\begin{block}{Ý tưởng}
 \begin{itemize}
-    \item Nếu $u\to key \le x$: cộng size của cây con trái + 1, tiếp tục sang cây con phải.
+    \item Nếu $u\to key \le x$: cộng size của cây con trái + 1 vào đáp án, tiếp tục sang cây con phải.
     \item Nếu $u\to key > x$: tìm ở cây con trái.
 \end{itemize}
+\end{block}
 
 \begin{minted}[fontsize=\small, linenos, breaklines]{c++}
 int order_of_key(Node* u, int x) {
@@ -61,7 +73,13 @@ int order_of_key(Node* u, int x) {
     if (u->key <= x) return get_size(u->left) + 1 + order_of_key(u->right, x);
     return order_of_key(u->left, x);
 }
+\end{minted}
+\end{frame}
 
+\begin{frame}[fragile]
+\frametitle{Đếm số nghịch thế}
+\framesubtitle{Giải pháp đầy đủ}
+\begin{minted}[fontsize=\small,linenos,breaklines]{c++}
 long long countInversions(vector<int>& a) {
     Node* root = nullptr;
     long long ans = 0;
@@ -73,20 +91,33 @@ long long countInversions(vector<int>& a) {
     return ans;
 }
 \end{minted}
-
 \end{frame}
 
 % Bài 3: Sliding Window Median
-\begin{frame}[fragile]{Bài 3: Sliding Window Median}
-\textbf{Ý tưởng:}
+\begin{frame}[fragile]{Sliding Window Median}
+\framesubtitle{Mô tả}
+\begin{block}{Tóm tắt}
+Cho mảng a có $n$ phần tử. In ra phần tử trung vị của mỗi đoạn con độ dài k.
+\end{block}
+\begin{block}{Ràng buộc}
 \begin{itemize}
-    \item Sắp xếp nút trong cây tăng dần.
-    \item Gọi $leftSize$ = kích thước cây con trái.
-    \item Nếu $k \le leftSize$: tìm nút thứ $k$ bên cây con trái.
-    \item Nếu $k = leftSize + 1$: $u$ chính là nút cần tìm.
-    \item Nếu $k > leftSize + 1$: tìm nút thứ $k - leftSize - 1$ bên cây con phải.
+\item $1 \le k \le n\le 2\times 10^5$
+\item $1\le a_i\le 10^9$
 \end{itemize}
+\end{block}
 
+\begin{block}{Ý tưởng}
+\begin{itemize}
+    \item Gọi $\mathrm{leftSize}$ = kích thước cây con trái.
+    \item Nếu $k \le \mathrm{leftSize}$: tìm nút thứ $k$ bên cây con trái.
+    \item Nếu $k = \mathrm{leftSize} + 1$: $u$ chính là nút cần tìm.
+    \item Nếu $k > \mathrm{leftSize} + 1$: tìm nút thứ $k - \mathrm{leftSize} - 1$ bên cây con phải.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Sliding Window Median}
+\framesubtitle{Hàm hỗ trợ}
 \begin{minted}[fontsize=\small, linenos, breaklines]{c++}
 Node* find_by_order(Node* u, int k) {
     if (!u) return nullptr;
@@ -96,11 +127,11 @@ Node* find_by_order(Node* u, int k) {
     return find_by_order(u->right, k - leftSize - 1);
 }
 \end{minted}
-
 \end{frame}
 
 % Bài 3: Giải pháp Sliding Window
-\begin{frame}[fragile]{Bài 3: Giải pháp Sliding Window}
+\begin{frame}[fragile]{Sliding Window Median}
+\framesubtitle{Giải pháp đầy đủ}
 \begin{minted}[fontsize=\small, linenos, breaklines]{c++}
 vector<int> slidingMedian(vector<int>& a, int k) {
     vector<int> ans;
@@ -116,5 +147,4 @@ vector<int> slidingMedian(vector<int>& a, int k) {
     return ans;
 }
 \end{minted}
-
 \end{frame}
