@@ -29,14 +29,13 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Nhận xét về định nghĩa}
+	\frametitle{Đặc điểm của đây đỏ-đen}
 	\begin{itemize}
 		\item Mọi đường đi từ nút gốc đến nút lá có số nút chênh nhau không quá 2 lần.
 		\item Mọi cây con của cây đỏ-đen cũng là cây đỏ-đen\only<2->{ \alert<2>{nếu đổi màu nút gốc thành đen}}.
 		\item Tính chất cuối có thể thay \alert{nút bất kì} thành \alert{nút gốc}.
 	\end{itemize}
 \end{frame}
-
 
 \begin{frame}
 	\frametitle{Ví dụ về cây đỏ-đen}
@@ -119,8 +118,8 @@
 			tree,
 			for tree={fit=tight,font={\scriptsize},s sep=2em,l=5mm}
 			[,empty-node
-				[y
-					[x
+				[y,rand-node
+					[x,rand-node
 						[$\alpha$,non-decorate-node]
 						[$\beta$,non-decorate-node]
 					]
@@ -134,9 +133,9 @@
 			tree,
 			for tree={fit=tight,font=\scriptsize,s sep=2em,l=5mm}
 			[,empty-node
-				[x
+				[x,rand-node
 					[$\gamma$,non-decorate-node]
-					[y
+					[y,rand-node
 						[$\beta$,non-decorate-node]
 						[$\gamma$,non-decorate-node]
 					]
