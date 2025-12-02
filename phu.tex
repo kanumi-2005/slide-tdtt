@@ -232,9 +232,9 @@
 			]
 			\node (B) at ([xshift=0.5cm,yshift=-0.5cm] delta) {đen}; % node ở cuối mũi tên
 			\draw[->, bend right=20] (delta.south) to (B.west);
-			\pause
+			\uncover<+->{
 			\node (B) at ([xshift=0.5cm,yshift=-0.5cm] gamma) {đen}; % node ở cuối mũi tên
-			\draw[->, bend right=20] (gamma.south) to (B.west);
+			\draw[->, bend right=20] (gamma.south) to (B.west);}
 		\end{forest}
 	}
 	{
@@ -250,7 +250,7 @@
 						]
 						[$\gamma$,non-decorate-node]
 					]
-					[$\delta$,non-decorate-node,label=right:u,label=delta]
+					[$\delta$,non-decorate-node,label=right:u]
 				]
 			]
 		\end{forest}
