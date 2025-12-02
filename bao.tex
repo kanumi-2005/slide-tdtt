@@ -1,9 +1,12 @@
+%!TeX root = main.tex
+%!TeX program = lualatex 
 \section{Đặt vấn đề}
 
+\subsection{Tổng quan về BST}
 % BST 
 \begin{frame}
     \frametitle{\insertsection}
-    \framesubtitle{Ôn lại: Binary Search Tree (BST)}
+    \framesubtitle{Tổng quan về Binary Search Tree (BST)}
 
     \begin{columns}
     %---- Left column ----
@@ -19,24 +22,21 @@
 
     %---- Right column ----
     \column{0.5\textwidth}
-    \begin{center}
-    \begin{tikzpicture}[
-        every node/.style={circle,draw,minimum size=7mm},
-        level distance=1.2cm,
-        level 1/.style={sibling distance=25mm},
-        level 2/.style={sibling distance=15mm}
-    ]
-        \node {8}
-            child { node {4}
-                child { node {2} }
-                child { node {6} }
-            }
-            child { node {12}
-                child { node {10} }
-                child { node {14} }
-            };
-    \end{tikzpicture}
-    \end{center}
+    \centering
+    \begin{forest}
+    tree,for tree={font=\normalfont,fit=band,minimum size=2em}
+    [8
+    	[4
+    		[2]
+    		[6]
+    	]
+    	[12
+    		[10]
+    		[14]
+	]
+  ]
+    \end{forest}
+
     \end{columns}
 \end{frame}
 
@@ -64,24 +64,20 @@
         \end{itemize}
     \end{block}
     \column{0.45\textwidth}
-    \begin{center}
-    \begin{tikzpicture}[
-        every node/.style={circle,draw,minimum size=7mm},
-        level distance=1.2cm,
-        level 1/.style={sibling distance=25mm},
-        level 2/.style={sibling distance=15mm}
-    ]
-        \node {8}
-            child { node {4}
-                child { node {2} }
-                child { node {6} }
-            }
-            child { node {12}
-                child { node {10} }
-                child { node {14} }
-            };
-    \end{tikzpicture}
-    \end{center}
+    \centering
+    \begin{forest}
+    tree,for tree={font=\normalfont,fit=band,minimum size=2em}
+    [8
+    	[4
+    		[2]
+    		[6]
+    	]
+    	[12
+    		[10]
+    		[14]
+	]
+  ]
+    \end{forest}
     \end{columns}
 \end{frame}
 
@@ -105,29 +101,24 @@
         \end{itemize}
     \end{block}
     \column{0.45\textwidth}
-    \begin{center}
-    \begin{tikzpicture}[
-        every node/.style={circle,draw,minimum size=7mm},
-        level distance=1.2cm,
-        level 1/.style={sibling distance=25mm},
-        level 2/.style={sibling distance=15mm}
-    ]
-        \node (root) {8}
-        child { node {4}
-            child { node {6} }
-        }
-        child { node (del) {12}
-            child { node (succ) {10} }
-            child { node {14}
-                child { node {13} }
-                child { node {15}
-                    child { node {16} }
-                }
-            }
-        };
-
-    \end{tikzpicture}
-    \end{center}
+    \centering
+    \begin{forest}
+    tree,for tree={font=\normalfont,fit=band,minimum size=2em}
+	[8
+		[4
+			[6]
+		]
+		[12
+			[10]
+			[14
+				[13]
+				[15
+					[16]
+				]
+			]
+		]
+	]
+	\end{forest}
     \end{columns}
 \end{frame}
 
@@ -150,27 +141,24 @@
 
     %---- Right column ----
     \column{0.5\textwidth}
-    \begin{center}
-    \begin{tikzpicture}[
-        every node/.style={circle,draw,minimum size=7mm},
-        level distance=1.2cm,
-        level 1/.style={sibling distance=25mm},
-        level 2/.style={sibling distance=15mm}
-    ]
-        \node {8}
-            child { node {4}
-                child { node {2} }
-                child { node {6} }
-            }
-            child { node {12}
-                child { node {10} }
-                child { node {14} }
-            };
-    \end{tikzpicture}
-    \end{center}
+    \centering
+    \begin{forest}
+    tree,for tree={font=\normalfont,fit=band,minimum size=2em}
+    [8
+    	[4
+    		[2]
+    		[6]
+    	]
+    	[12
+    		[10]
+    		[14]
+	]
+  ]
+    \end{forest}
     \end{columns}
 \end{frame}
 
+\subsection{Vấn đề về cân bằng}
 \begin{frame}
     \frametitle{\insertsection}
     \framesubtitle{Tại sao cần cây tự cân bằng?}
@@ -196,6 +184,7 @@
     \end{alertblock}
 \end{frame}
 
+\subsection{Bài toán}
 \begin{frame}
     \frametitle{\insertsection}
     \framesubtitle{Bài toán đặt ra}
